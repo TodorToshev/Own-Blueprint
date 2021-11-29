@@ -406,7 +406,7 @@ header .navbar {
 }
 
 .blog-posts .blog-thumb img {
-	height: 70vh;
+	height: 20em;
 	width: 100%;
 	overflow: hidden;
 }
