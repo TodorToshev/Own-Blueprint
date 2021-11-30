@@ -42,7 +42,9 @@
                     </div>
                   {% endfor %}
 
-                </div>                               
+                </div> 
+
+                <!-- Paginator -->
                 <div class="col-lg-12">
                   <ul class="page-numbers">
                     <li><a href="#">1</a></li>
@@ -51,6 +53,33 @@
                     <li><a href="#"><i class="fa fa-angle-double-right"></i></a></li>
                   </ul>
                 </div>
+
+              <!-- from docs: -->
+                <div class="col-lg-12">
+                  <ul class="page-numbers">
+                        {% if page_obj.has_previous %}
+                            <li><a href="?page=1">&laquo; first</a></li>
+                            <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+                        {% endif %}
+                
+                        <span class="active">
+                             {{ page_obj.number }} 
+                        </span>
+                
+                        {% if page_obj.has_next %}
+                            <a href="?page={{ page_obj.next_page_number }}">next</a>
+                            <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+                        {% endif %}
+                    </span>
+                </div>
+              <!-- ednfrom -->
+
+
+
+
+
+
+
               </div>
             </div>
           </div>
