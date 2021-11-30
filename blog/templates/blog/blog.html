@@ -109,7 +109,7 @@ https://templatemo.com/tm-551-stand-blog
                       </div>
                       <div class="down-content">
                         <span>Lifestyle</span>
-                        <a href="post-details.html"><h4>{{ post.title }}</h4></a>
+                        <a href="{% url 'blog:post_detail' post.id %}"><h4>{{ post.title }}</h4></a>
                         <ul class="post-info">
                           <li><a href="#">{{ post.author }}</a></li>
                           <li><a href="#">{{ post.created }}</a></li>
