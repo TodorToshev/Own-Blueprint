@@ -1,12 +1,11 @@
 {% extends 'blog/base.html' %}
+{% load static %}
 {% block content %}
 
 <form method="post">
-  <div class="form-group">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <input type="submit" class="btn btn-primary" value="Save">
-  </div>
+  {% csrf_token %}
+  {{ form.as_p }}
+  <input type="submit" value="Save">
 </form>
 
 {% endblock %}

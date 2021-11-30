@@ -903,7 +903,7 @@ footer p a:hover {
 	color: #aaa;
 }
 
-.contact-us .contact-form button {
+.contact-us .contact-form .create-form button {
 	display: inline-block;
 	background-color: #f48840;
 	color: #fff;
