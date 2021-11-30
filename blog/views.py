@@ -11,4 +11,5 @@ def blog_main(request):
 class PostListView(ListView):
 
     model = BlogPost
+    context_object_name = 'posts'
     template_name = 'blog/blog.html'
