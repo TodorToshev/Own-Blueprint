@@ -3,7 +3,7 @@
 {% block content %}
 
 <div style="padding-top: 35vh; margin-bottom: 35vh">
-    <form class="login-form" action="{% url "login" %}" method="POST">
+    <form class="login-form" action="{% url "accounts:login" %}" method="POST">
         {% csrf_token %}
         {{ form.as_p }}
         <input type="submit" value="Log In">
