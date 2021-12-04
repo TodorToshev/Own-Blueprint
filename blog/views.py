@@ -26,7 +26,14 @@ def post_detail(request, id):
     post = get_object_or_404(BlogPost, id=id)
     post.views += 1
     post.save()
-    return render(request, 'blog/post-details.html', {'post': post})
+
+    #repeating code, but otherwise the base.html gets messed up when I try to use inheritance.
+    #TODO: fix 
+    context = {
+      'most_popular': BlogPost.objects.order_by('-views')[:5],
+      'post': post
+      }
+    return render(request, 'blog/post-details.html', context)
 
 
 class PostCreateView(CreateView):
