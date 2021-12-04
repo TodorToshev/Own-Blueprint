@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from blog.models import BlogPost
 from django.views.generic.list import ListView
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.shortcuts import get_object_or_404
 from django.urls import reverse
@@ -36,7 +37,7 @@ def post_detail(request, id):
     return render(request, 'blog/post-details.html', context)
 
 
-class PostCreateView(CreateView):
+class PostCreateView(LoginRequiredMixin, CreateView):
     model = BlogPost
     fields = ['title', 'content']
     template_name = 'blog/new.html'
@@ -52,10 +53,16 @@ class PostCreateView(CreateView):
       return reverse('blog:post_detail', args=(self.object.id,))
 
     
-class PostEditView(UpdateView):
+class PostEditView(LoginRequiredMixin, UpdateView):
   model = BlogPost
   fields = ['title', 'content']
   template_name = 'blog/edit.html'
+
+  def dispatch(self, request, *args, **kwargs):
+    post = self.get_object()
+    if not (request.user == post.author or request.user.is_superuser):
+        return self.handle_no_permission()
+    return super().dispatch(request, *args, **kwargs)
 
   def get_success_url(self):
     return reverse('blog:post_detail', args=(self.object.id,))
