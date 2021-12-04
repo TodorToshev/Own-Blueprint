@@ -33,6 +33,10 @@ h1,h2,h3,h4,h5,h6 {
 	margin: 0px;
 }
 
+.django-ckeditor-widget{
+	width: 100% !important;
+}
+  
 .main-button a {
 	display: inline-block;
 	background-color: #f48840;
@@ -170,18 +174,22 @@ header {
     -moz-transition: all 0.3s ease-in-out 0s;
     -o-transition: all 0.3s ease-in-out 0s;
     transition: all 0.3s ease-in-out 0s;
+	margin-bottom: 200px;
 }
 header .navbar {
 	padding: 25px 0px;
+	
 }
 .background-header .navbar {
 	padding: 17px 0px;
+	
 }
 .background-header {
 	top: 0;
 	height: 80px;
 	position: fixed;
 	box-shadow: 0px 1px 10px rgba(0,0,0,0.1);
+	
 }
 .background-header .navbar-brand h2 {
 	color: #121212!important;

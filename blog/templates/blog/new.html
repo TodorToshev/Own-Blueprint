@@ -1,11 +1,16 @@
 {% extends 'blog/base.html' %}
+{% load crispy_forms_tags %}
 {% load static %}
+
 {% block content %}
 
-<form method="post">
-  {% csrf_token %}
-  {{ form.as_p }}
-  <input type="submit" value="Save">
-</form>
+<div style="width: 80%; padding-top: 20vh; margin: auto;">
+  <form method="post">
+    {% csrf_token %}
+    {{ form.media }}
+    {{ form|crispy }}
+    <input class='btn btn-outline-primary btn-lg btn-block' type="submit" value="Publish">
+  </form>
+</div>
 
 {% endblock %}

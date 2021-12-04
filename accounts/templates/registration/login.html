@@ -1,11 +1,12 @@
 {% extends 'base.html' %}
+{% load crispy_forms_tags %}
 {% block title %}Log In{% endblock %}
 {% block content %}
 
-<div style="padding-top: 35vh; margin-bottom: 35vh">
+<div style="padding-top: 25vh; margin-bottom: 35vh; width: 70%; margin: auto;">
     <form action="{% url "accounts:login" %}" method="POST">
         {% csrf_token %}
-        {{ form.as_p }}
+        {{ form|crispy }}
 
         <!-- {% if form.errors %}
             {% for field in form.fields %}
@@ -17,9 +18,9 @@
             {% endfor %}
         {% endif %} -->
 
-        <input type="submit" value="Log In">
+        <input type="submit" class='btn btn-outline-success btn-lg btn-block' value="Log In">
     </form>
-    <p>Don't have an account? <a href="{% url "accounts:registration" %}">Register Here.</a></p>
+    <a class="btn btn-outline-info btn-block" style="margin-top: 5vh" href="{% url "accounts:registration" %}">Don't have an account? Register Here.</a>
 </div>
 
 
