@@ -17,6 +17,11 @@ class PostListView(ListView):
     template_name = 'blog/blog.html'
     paginate_by = 10
 
+    def get_context_data(self, **kwargs):
+      context = super(PostListView, self).get_context_data(**kwargs)
+      context['last_posts'] = BlogPost.objects.all()[:7]
+      return context
+
 def post_detail(request, id):
   post = get_object_or_404(BlogPost, id=id)
   return render(request, 'blog/post-details.html', {'post': post})
