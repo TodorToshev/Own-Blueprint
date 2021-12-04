@@ -1,5 +1,9 @@
 CKEDITOR_CONFIGS = {
-    'default': {
+    'default': {        
+        'autoParagraph': False,
+         'fillEmptyBlocks': False,
+         
+    
         'skin': 'moono',
         # 'skin': 'office2013',
         'toolbar_Basic': [

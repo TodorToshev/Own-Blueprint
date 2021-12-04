@@ -45,7 +45,7 @@
                           <li><a href="#">{{ post.created }}</a></li>
                           <li><a href="#">12 Comments</a></li>
                         </ul>
-                        <p>{{ post.content }}</p>
+                        <p>{{ post.content|safe }}</p>
                         <div class="post-options">
                           <div class="row">
                             <div class="col-lg-8">
