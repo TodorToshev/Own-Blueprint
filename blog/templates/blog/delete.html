@@ -1,0 +1,15 @@
+{% extends 'blog/base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+<div style="text-align:center; padding: 50px">
+<form class="custom-form" method="post">
+    {% csrf_token %}    
+        <label style="margin-top: 30px;">Are you sure you want to delete "{{ object }}"?</label>
+        <br>
+        <input style="margin: 25px;" class="btn btn-outline-danger" type="submit" value="Confirm">
+    </div>
+</form>
+
+{% endblock %}

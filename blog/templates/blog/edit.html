@@ -8,7 +8,7 @@
     {{ form.media }}
     <div style="display: inline-block; width: 100%;">
         <input class='btn btn-outline-success btn-lg btn-block' type="submit" value="Update">
+        <a class='btn btn-outline-danger btn-lg btn-block' href="{% url 'blog:delete_post' post.pk %}">Delete Post</a>
     </div>
 </form>
-
 {% endblock %}

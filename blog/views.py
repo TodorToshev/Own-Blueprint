@@ -4,7 +4,7 @@ from django.views.generic.list import ListView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.shortcuts import get_object_or_404
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
 
 
 
@@ -54,16 +54,27 @@ class PostCreateView(LoginRequiredMixin, CreateView):
 
     
 class PostEditView(LoginRequiredMixin, UpdateView):
-  model = BlogPost
-  fields = ['title', 'content']
-  template_name = 'blog/edit.html'
+    model = BlogPost
+    fields = ['title', 'content']
+    template_name = 'blog/edit.html'
 
-  def dispatch(self, request, *args, **kwargs):
-    post = self.get_object()
-    if not (request.user == post.author or request.user.is_superuser):
-        return self.handle_no_permission()
-    return super().dispatch(request, *args, **kwargs)
+    def get_context_data(self, **kwargs):
+      context = super(PostEditView, self).get_context_data(**kwargs)
+      context['post'] = self.object
+      return context
 
-  def get_success_url(self):
-    return reverse('blog:post_detail', args=(self.object.id,))
+    def dispatch(self, request, *args, **kwargs):
+      post = self.get_object()
+      if not (request.user == post.author or request.user.is_superuser):
+          return self.handle_no_permission()
+      return super().dispatch(request, *args, **kwargs)
 
+    def get_success_url(self):
+      return reverse('blog:post_detail', args=(self.object.id,))
+
+
+class PostDeleteView(DeleteView):
+    model = BlogPost
+    success_url = reverse_lazy('blog:blog')
+    template_name = 'blog/delete.html'
+    
