@@ -3,11 +3,23 @@
 {% block content %}
 
 <div style="padding-top: 35vh; margin-bottom: 35vh">
-    <form class="login-form" action="{% url "accounts:login" %}" method="POST">
+    <form action="{% url "accounts:login" %}" method="POST">
         {% csrf_token %}
         {{ form.as_p }}
+
+        <!-- {% if form.errors %}
+            {% for field in form.fields %}
+                {% for error in field.errors %} 
+                    <div class="alert alert-danger">
+                        <strong>{{ error }}</strong>
+                    </div>
+                {% endfor %}
+            {% endfor %}
+        {% endif %} -->
+
         <input type="submit" value="Log In">
     </form>
+    <p>Don't have an account? <a href="{% url "accounts:registration" %}">Register Here.</a></p>
 </div>
 
 

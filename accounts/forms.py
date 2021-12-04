@@ -1,15 +1,16 @@
 from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
+from django.contrib.messages.api import success
 
 class UserRegistrationForm(UserCreationForm):
     email = forms.EmailField(required=True)
-
+    
     class Meta:
         model = User
-        fields = "__all__"
+        fields = ('username', 'email', 'password1', 'password2')
 
-    def save(self):
+    def save(self, commit=False):
         user = super(UserRegistrationForm, self).save(commit=False)
         user.email = self.cleaned_data["email"]
         if commit:

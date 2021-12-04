@@ -10,6 +10,7 @@ def user_registration(request):
         form = UserRegistrationForm(request.POST)
         if form.is_valid():
             user = form.save()
+            user.save()
             login(request, user)
             messages.success(request, 'Registration successful.')
             return redirect("blog:blog")
