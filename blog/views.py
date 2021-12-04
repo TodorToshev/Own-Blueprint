@@ -19,21 +19,23 @@ class PostListView(ListView):
 
     def get_context_data(self, **kwargs):
       context = super(PostListView, self).get_context_data(**kwargs)
-      context['last_posts'] = BlogPost.objects.all()[:7]
+      context['most_popular'] = BlogPost.objects.order_by('-views')[:5]
       return context
 
 def post_detail(request, id):
-  post = get_object_or_404(BlogPost, id=id)
-  return render(request, 'blog/post-details.html', {'post': post})
+    post = get_object_or_404(BlogPost, id=id)
+    post.views += 1
+    post.save()
+    return render(request, 'blog/post-details.html', {'post': post})
 
 
 class PostCreateView(CreateView):
-  model = BlogPost
-  fields = ['title', 'content']
-  template_name = 'blog/new.html'
+    model = BlogPost
+    fields = ['title', 'content']
+    template_name = 'blog/new.html'
 
-  #get obj id and reverse to post/id
-  def get_success_url(self):
-    return reverse('blog:post_detail', args=(self.object.id,))
+    #get obj id and reverse to post/id
+    def get_success_url(self):
+      return reverse('blog:post_detail', args=(self.object.id,))
 
     

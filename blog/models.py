@@ -11,6 +11,7 @@ class BlogPost(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     author = models.ForeignKey(User, related_name='post_author', on_delete=models.SET_NULL, null=True)
+    views = models.IntegerField(default=0)
 
     class Meta:
         ordering = ('-created',)

@@ -45,7 +45,7 @@
                           <li><a href="#">{{ post.created }}</a></li>
                           <li><a href="#">12 Comments</a></li>
                         </ul>
-                        <p>{{ post.content|safe|truncatechars:400 }}</p>
+                        <p>{{ post.content|safe }}</p>
                         <div class="post-options">
                           <div class="row">
                             <div class="col-lg-8">
@@ -107,12 +107,12 @@
                 <div class="col-lg-12">
                   <div class="sidebar-item recent-posts">
                     <div class="sidebar-heading">
-                      <h2>Recent Posts</h2>
+                      <h2>Most Popular Posts</h2>
                     </div>
 
 
                     <div class="content">
-                      {% for post in last_posts %}
+                      {% for post in most_popular %}
                         <ul>
                           <li><a href="{% url "blog:post_detail" post.id %}">
                             <h5>{{ post.title }}</h5>
