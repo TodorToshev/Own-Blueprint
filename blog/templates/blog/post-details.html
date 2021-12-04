@@ -15,7 +15,14 @@
                     </div>
                     <div class="down-content">
                       <span>Lifestyle</span>
-                      <a href="post-details.html"><h4>{{ post.title }}</h4></a>
+
+                        <div style="display: inline-block; width: 100%;">
+                          <a style="float: left;" href="post-details.html"><h4>{{ post.title }}</h4></a>                          
+                          {% if request.user == post.author %}
+                            <a style="float: right;" class="btn btn-outline-danger" href="{% url "blog:edit_post" post.pk %}">Edit Post</a>
+                          {% endif %}
+                        </div>
+
                       <ul class="post-info">
                         <li><a href="#">{{ post.author }}</a></li>
                         <li><a href="#">{{ post.created }}</a></li>

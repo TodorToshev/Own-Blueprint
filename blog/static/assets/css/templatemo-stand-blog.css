@@ -184,6 +184,15 @@ header .navbar {
 	padding: 17px 0px;
 	
 }
+
+
+.custom-form {
+	width: 80%; 
+	padding-top: 20vh; 
+	margin: auto;
+}
+
+
 .background-header {
 	top: 0;
 	height: 80px;

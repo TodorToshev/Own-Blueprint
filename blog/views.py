@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from blog.models import BlogPost
 from django.views.generic.list import ListView
-from django.views.generic.edit import CreateView
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.shortcuts import get_object_or_404
 from django.urls import reverse
 
@@ -41,8 +41,22 @@ class PostCreateView(CreateView):
     fields = ['title', 'content']
     template_name = 'blog/new.html'
 
+    def form_valid(self, form):
+      self.object = form.save(commit=False)
+      self.object.author = self.request.user
+      self.object.save()
+      return super().form_valid(form)
+
     #get obj id and reverse to post/id
     def get_success_url(self):
       return reverse('blog:post_detail', args=(self.object.id,))
 
     
+class PostEditView(UpdateView):
+  model = BlogPost
+  fields = ['title', 'content']
+  template_name = 'blog/edit.html'
+
+  def get_success_url(self):
+    return reverse('blog:post_detail', args=(self.object.id,))
+

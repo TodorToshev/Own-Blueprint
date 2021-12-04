@@ -1,0 +1,14 @@
+{% extends 'blog/base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+<form class="custom-form" method="post">{% csrf_token %}
+    {{ form|crispy }}
+    {{ form.media }}
+    <div style="display: inline-block; width: 100%;">
+        <input class='btn btn-outline-success btn-lg btn-block' type="submit" value="Update">
+    </div>
+</form>
+
+{% endblock %}
