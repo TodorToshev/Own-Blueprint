@@ -39,7 +39,7 @@ def post_detail(request, id):
 
 class PostCreateView(LoginRequiredMixin, CreateView):
     model = BlogPost
-    fields = ['title', 'content']
+    fields = ['title', 'title_image', 'content']
     template_name = 'blog/new.html'
 
     def form_valid(self, form):

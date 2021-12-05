@@ -6,6 +6,7 @@ from ckeditor.fields import RichTextField
 
 class BlogPost(models.Model):
     title = models.CharField(max_length=250)
+    title_image = models.ImageField(upload_to='posts/%d/%m/%Y')
     # content = models.TextField()
     content = RichTextField(blank=True, null=True)
     created = models.DateTimeField(auto_now_add=True)
