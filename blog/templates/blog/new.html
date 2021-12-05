@@ -5,7 +5,10 @@
 {% block content %}
 
 <div class="custom-form">
-  <form method="post">
+
+  <!-- enctype="multipart/form-data" is important; 
+    w/o it, ImageField does not work. -->
+  <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
     {{ form.media }}
     {{ form|crispy }}
