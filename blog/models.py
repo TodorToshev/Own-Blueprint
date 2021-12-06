@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from ckeditor.fields import RichTextField
+from django.db.models.expressions import F
 
 # Create your models here.
 
@@ -19,3 +20,25 @@ class BlogPost(models.Model):
 
     def __str__(self):
         return self.title
+
+
+class PostComment(models.Model):
+    author = models.ForeignKey(User, related_name='comment_author', on_delete=models.CASCADE, null=True, blank=True)
+    name = models.CharField(max_length=250, blank=False)
+    email = models.EmailField(max_length=100)
+    subject = models.CharField(max_length=100)
+    content = models.TextField(max_length=500)
+
+    
+
+    def save(self, *args, **kwargs):
+        if self.author is not None:
+            if self.author.first_name and self.author.last_name:
+                self.name = self.author.first_name + ' ' + self.author.last_name
+            else:
+                self.name = self.author.username
+
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+            return f"Comment {self.subject} by {self.name}"

@@ -5,6 +5,8 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.shortcuts import get_object_or_404
 from django.urls import reverse, reverse_lazy
+from .forms import CommentForm
+from django.contrib import messages
 
 
 
@@ -28,11 +30,21 @@ def post_detail(request, id):
     post.views += 1
     post.save()
 
+    comment_form = CommentForm()
+    if request.method == 'POST':
+      comment_form = CommentForm(request.POST)
+      if comment_form.is_valid():
+        comment = comment_form.save(commit=False)
+        comment.author = request.user
+        comment.save()
+        messages.success(request, 'Comment has been posted.')
+
     #repeating code, but otherwise the base.html gets messed up when I try to use inheritance.
     #TODO: fix 
     context = {
       'most_popular': BlogPost.objects.order_by('-views')[:5],
-      'post': post
+      'post': post,
+      'comment_form': comment_form,
       }
     return render(request, 'blog/post-details.html', context)
 
