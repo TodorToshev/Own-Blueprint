@@ -24,10 +24,12 @@ class BlogPost(models.Model):
 
 class PostComment(models.Model):
     author = models.ForeignKey(User, related_name='comment_author', on_delete=models.CASCADE, null=True, blank=True)
+    post = models.ForeignKey(BlogPost, related_name='post_comments', on_delete=models.CASCADE, null=False)
     name = models.CharField(max_length=250, blank=False)
     email = models.EmailField(max_length=100)
     subject = models.CharField(max_length=100)
     content = models.TextField(max_length=500)
+    date_added = models.DateTimeField(auto_now_add=True)
 
     
 

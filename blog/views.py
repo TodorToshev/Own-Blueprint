@@ -1,5 +1,5 @@
-from django.shortcuts import render
-from blog.models import BlogPost
+from django.shortcuts import redirect, render
+from blog.models import BlogPost, PostComment
 from django.views.generic.list import ListView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
@@ -31,13 +31,16 @@ def post_detail(request, id):
     post.save()
 
     comment_form = CommentForm()
-    if request.method == 'POST':
-      comment_form = CommentForm(request.POST)
-      if comment_form.is_valid():
-        comment = comment_form.save(commit=False)
-        comment.author = request.user
-        comment.save()
-        messages.success(request, 'Comment has been posted.')
+    # if request.method == 'POST':
+    #   comment_form = CommentForm(request.POST)
+    #   if comment_form.is_valid():
+    #     comment = comment_form.save(commit=False)
+    #     comment.author = request.user
+    #     comment.post = post
+    #     comment.save()
+    #     messages.success(request, 'Comment has been posted.')
+
+    post_comments = PostComment.objects.filter(post__id=id)
 
     #repeating code, but otherwise the base.html gets messed up when I try to use inheritance.
     #TODO: fix 
@@ -45,8 +48,26 @@ def post_detail(request, id):
       'most_popular': BlogPost.objects.order_by('-views')[:5],
       'post': post,
       'comment_form': comment_form,
+      'post_comments': post_comments,
       }
     return render(request, 'blog/post-details.html', context)
+
+
+def add_comment(request, pk):
+  post = get_object_or_404(BlogPost, id=pk)
+  comment_form = CommentForm()
+  if request.method == 'POST':
+    comment_form = CommentForm(request.POST)
+    if comment_form.is_valid():
+      comment = comment_form.save(commit=False)
+      comment.author = request.user
+      comment.post = post
+      comment.save()
+      messages.success(request, 'Comment has been posted.')  
+  
+  return redirect('blog:post_detail', post.id)
+
+
 
 
 class PostCreateView(LoginRequiredMixin, CreateView):
