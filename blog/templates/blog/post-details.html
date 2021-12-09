@@ -40,11 +40,14 @@
                       <div class="post-options">
                         <div class="row">
                           <div class="col-6">
-                            <ul class="post-tags">
+                            <ul class="post-tags">                              
                               <li><i class="fa fa-tags"></i></li>
-                              <li><a href="#">Best Templates</a>,</li>
-                              <li><a href="#">TemplateMo</a></li>
+
+                              {% for tag in post.tags.all %}
+                                <li><a href="#">{{ tag|title }}</a>,</li>
+                              {% endfor %}
                             </ul>
+                            
                           </div>
                           <div class="col-6">
                             <ul class="post-share">

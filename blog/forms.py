@@ -12,4 +12,14 @@ class CommentForm(ModelForm):
   class Meta:
     model = PostComment
     fields = ['name', 'author', 'email', 'subject', 'content']
-    widgets = {'author': forms.HiddenInput()}
+    widgets = {'author': forms.HiddenInput(),
+               'name': widgets.TextInput(attrs={
+                   'placeholder': 'name (user name will be displayed if logged in)'}),
+               'email': widgets.TextInput(attrs={
+                   "placeholder": 'email'}),
+               # 'content': widgets.TextInput(attrs={
+               #   "placeholder": 'comment'}),
+               'subject': widgets.TextInput(attrs={
+                   "placeholder": 'subject'}),
+
+               }

@@ -31,15 +31,6 @@ def post_detail(request, id):
     post.save()
 
     comment_form = CommentForm()
-    # if request.method == 'POST':
-    #   comment_form = CommentForm(request.POST)
-    #   if comment_form.is_valid():
-    #     comment = comment_form.save(commit=False)
-    #     comment.author = request.user
-    #     comment.post = post
-    #     comment.save()
-    #     messages.success(request, 'Comment has been posted.')
-
     post_comments = PostComment.objects.filter(post__id=id)
 
     #repeating code, but otherwise the base.html gets messed up when I try to use inheritance.
