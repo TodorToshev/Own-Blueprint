@@ -7,23 +7,53 @@ from django.shortcuts import get_object_or_404
 from django.urls import reverse, reverse_lazy
 from .forms import CommentForm
 from django.contrib import messages
+from taggit.models import Tag
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 
 
 # def blog_main(request):
 #     return render(request, 'blog/blog.html')
 
-class PostListView(ListView):
+# class PostListView(ListView):
 
-    model = BlogPost
-    context_object_name = 'posts'
-    template_name = 'blog/blog.html'
-    paginate_by = 10
+#     model = BlogPost
+#     context_object_name = 'posts'
+#     template_name = 'blog/blog.html'
+#     paginate_by = 10
 
-    def get_context_data(self, **kwargs):
-      context = super(PostListView, self).get_context_data(**kwargs)
-      context['most_popular'] = BlogPost.objects.order_by('-views')[:5]
-      return context
+#     def get_context_data(self, **kwargs):
+#       context = super(PostListView, self).get_context_data(**kwargs)
+#       context['most_popular'] = BlogPost.objects.order_by('-views')[:5]
+#       return context
+
+
+def post_list(request, tag_slug=None):
+    context = {}
+    tag = None
+    posts = BlogPost.objects.all()
+    
+    if tag_slug:
+      tag = get_object_or_404(Tag, slug=tag_slug)
+      posts = BlogPost.objects.filter(tags__in=tag)
+
+    paginator = Paginator(posts, 3)
+    page = request.GET.get('page')
+    try:
+      posts = paginator.page(page)
+    except PageNotAnInteger:
+    # If page is not an integer deliver the first page
+      posts = paginator.page(1)
+    except EmptyPage:
+    # If page is out of range deliver last page of results
+      posts = paginator.page(paginator.num_pages)
+
+    context['most_popular'] = BlogPost.objects.order_by('-views')[:5]
+    context['posts'] = posts
+    context['page'] = posts
+
+
+    return render(request, 'blog/blog.html', context)
 
 def post_detail(request, id):
     post = get_object_or_404(BlogPost, id=id)
