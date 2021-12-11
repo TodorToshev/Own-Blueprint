@@ -41,10 +41,10 @@ def post_list(request, tag_slug=None):
     try:
       posts = paginator.page(page)
     except PageNotAnInteger:
-    # If page is not an integer deliver the first page
+      # If page is not an integer deliver the first page
       posts = paginator.page(1)
     except EmptyPage:
-    # If page is out of range deliver last page of results
+      # If page is out of range deliver last page of results
       posts = paginator.page(paginator.num_pages)
 
     context = {
@@ -89,8 +89,6 @@ def add_comment(request, pk):
       messages.success(request, 'Comment has been posted.')  
   
   return redirect('blog:post_detail', post.id)
-
-
 
 
 class PostCreateView(LoginRequiredMixin, CreateView):
