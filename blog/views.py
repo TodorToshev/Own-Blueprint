@@ -29,13 +29,12 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 
 def post_list(request, tag_slug=None):
-    context = {}
     tag = None
     posts = BlogPost.objects.all()
     
     if tag_slug:
       tag = get_object_or_404(Tag, slug=tag_slug)
-      posts = BlogPost.objects.filter(tags__in=tag)
+      posts = posts.filter(tags__in=[tag])
 
     paginator = Paginator(posts, 3)
     page = request.GET.get('page')
@@ -48,10 +47,12 @@ def post_list(request, tag_slug=None):
     # If page is out of range deliver last page of results
       posts = paginator.page(paginator.num_pages)
 
-    context['most_popular'] = BlogPost.objects.order_by('-views')[:5]
-    context['posts'] = posts
-    context['page'] = posts
-
+    context = {
+      'most_popular': BlogPost.objects.order_by('-views')[:5],
+      'posts': posts,
+      'page': posts,
+      'tags': Tag.objects.all()
+    }
 
     return render(request, 'blog/blog.html', context)
 
@@ -70,6 +71,7 @@ def post_detail(request, id):
       'post': post,
       'comment_form': comment_form,
       'post_comments': post_comments,
+      'tags': Tag.objects.all(),
       }
     return render(request, 'blog/post-details.html', context)
 

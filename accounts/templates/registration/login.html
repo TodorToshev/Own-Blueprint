@@ -7,20 +7,9 @@
     <form action="{% url "accounts:login" %}" method="POST">
         {% csrf_token %}
         {{ form|crispy }}
-
-        <!-- {% if form.errors %}
-            {% for field in form.fields %}
-                {% for error in field.errors %} 
-                    <div class="alert alert-danger">
-                        <strong>{{ error }}</strong>
-                    </div>
-                {% endfor %}
-            {% endfor %}
-        {% endif %} -->
-
         <input type="submit" class='btn btn-outline-success btn-lg btn-block' value="Log In">
     </form>
-    <a class="btn btn-outline-info btn-block" style="margin-top: 5vh" href="{% url "accounts:registration" %}">Don't have an account? Register Here.</a>
+    <p style='text-align:center; margin-top: 15px'>Don't have an account? <a style="margin-top: 5vh" href="{% url "accounts:registration" %}">Register Here.</a></p>
 </div>
 
 
