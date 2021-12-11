@@ -93,7 +93,7 @@ def add_comment(request, pk):
 
 class PostCreateView(LoginRequiredMixin, CreateView):
     model = BlogPost
-    fields = ['title', 'title_image', 'content']
+    fields = ['title', 'title_image', 'content', 'tags']
     template_name = 'blog/new.html'
 
     def form_valid(self, form):
@@ -109,7 +109,7 @@ class PostCreateView(LoginRequiredMixin, CreateView):
     
 class PostEditView(LoginRequiredMixin, UpdateView):
     model = BlogPost
-    fields = ['title', 'content']
+    fields = ['title', 'title_image', 'content', 'tags']
     template_name = 'blog/edit.html'
 
     def get_context_data(self, **kwargs):

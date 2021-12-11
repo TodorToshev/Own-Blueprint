@@ -3,9 +3,9 @@ from django.forms import ModelForm, widgets
 from .models import BlogPost, PostComment
 
 #not needed now.
-class PostForm(ModelForm):
-  model = BlogPost
-  fields = ['title', 'title_image', 'content']
+# class PostForm(ModelForm):
+#   model = BlogPost
+#   fields = ['title', 'title_image', 'content', 'tags']
 
 
 class CommentForm(ModelForm):
