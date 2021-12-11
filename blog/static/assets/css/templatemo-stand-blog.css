@@ -424,8 +424,11 @@ header .navbar {
 }
 
 .blog-posts .blog-thumb img {
-	height: 20em;
+	display: block;
+	max-height: auto;
 	width: 100%;
+	height: auto;
+	/* width: 100%; */
 	overflow: hidden;
 }
 
