@@ -83,7 +83,10 @@ def add_comment(request, pk):
     comment_form = CommentForm(request.POST)
     if comment_form.is_valid():
       comment = comment_form.save(commit=False)
-      comment.author = request.user
+      try:
+        comment.author = request.user
+      except ValueError:
+        comment.author = None
       comment.post = post
       comment.save()
       messages.success(request, 'Comment has been posted.')  
