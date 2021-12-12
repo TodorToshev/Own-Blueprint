@@ -1,3 +1,4 @@
+from django.db.models.query_utils import Q
 from django.shortcuts import redirect, render
 from blog.models import BlogPost, PostComment
 from django.views.generic.list import ListView
@@ -9,7 +10,6 @@ from .forms import CommentForm
 from django.contrib import messages
 from taggit.models import Tag
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-
 
 
 # def blog_main(request):
@@ -132,3 +132,15 @@ class PostDeleteView(DeleteView):
     success_url = reverse_lazy('blog:blog')
     template_name = 'blog/delete.html'
     
+
+def basic_search(request):
+    if request.method == 'POST':
+      term = request.POST.get('term', default=False)
+      results = BlogPost.objects.filter(title__icontains=term) | \
+          BlogPost.objects.filter(content__icontains=term)
+      context = {'results': results,
+                 'term': term,
+                 'tags': Tag.objects.all(), }
+      return render(request, 'blog/search_result.html', context)
+    else:
+      return render(request, 'blog/search_result.html')
