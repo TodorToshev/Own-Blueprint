@@ -1,4 +1,3 @@
-from django.db.models.query_utils import Q
 from django.shortcuts import redirect, render
 from blog.models import BlogPost, PostComment
 from django.views.generic.list import ListView
@@ -10,6 +9,7 @@ from .forms import CommentForm
 from django.contrib import messages
 from taggit.models import Tag
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from .models import Category
 
 
 # def blog_main(request):
@@ -51,7 +51,8 @@ def post_list(request, tag_slug=None):
       'most_popular': BlogPost.objects.order_by('-views')[:5],
       'posts': posts,
       'page': posts,
-      'tags': Tag.objects.all()
+      'tags': Tag.objects.all(),
+      'categories': Category.objects.all(),
     }
 
     return render(request, 'blog/blog.html', context)
@@ -72,6 +73,7 @@ def post_detail(request, id):
       'comment_form': comment_form,
       'post_comments': post_comments,
       'tags': Tag.objects.all(),
+      'categories': Category.objects.all(),
       }
     return render(request, 'blog/post-details.html', context)
 
@@ -96,7 +98,7 @@ def add_comment(request, pk):
 
 class PostCreateView(LoginRequiredMixin, CreateView):
     model = BlogPost
-    fields = ['title', 'title_image', 'content', 'tags']
+    fields = ['title', 'category', 'title_image', 'content', 'tags']
     template_name = 'blog/new.html'
 
     def form_valid(self, form):
@@ -112,7 +114,7 @@ class PostCreateView(LoginRequiredMixin, CreateView):
     
 class PostEditView(LoginRequiredMixin, UpdateView):
     model = BlogPost
-    fields = ['title', 'title_image', 'content', 'tags']
+    fields = ['title', 'category', 'title_image', 'content', 'tags']
     template_name = 'blog/edit.html'
 
     def get_context_data(self, **kwargs):

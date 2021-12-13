@@ -6,6 +6,15 @@ from taggit.managers import TaggableManager
 
 # Create your models here.
 
+class Category(models.Model):
+    class Meta:
+        verbose_name_plural = 'categories'
+
+    categ_type = models.CharField(max_length=120)
+
+    def __str__(self):
+        return self.categ_type
+
 class BlogPost(models.Model):
     title = models.CharField(max_length=250)
     title_image = models.ImageField(upload_to='posts/%d/%m/%Y')
@@ -17,6 +26,9 @@ class BlogPost(models.Model):
         User, related_name='post_author', on_delete=models.SET_NULL, null=True)
     views = models.IntegerField(default=0)
     tags = TaggableManager()
+
+    category = models.ForeignKey(Category, related_name='post_category', on_delete=models.SET_NULL, null=True)    
+
 
     class Meta:
         ordering = ('-created',)
