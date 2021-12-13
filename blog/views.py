@@ -28,13 +28,17 @@ from .models import Category
 #       return context
 
 
-def post_list(request, tag_slug=None):
+def post_list(request, tag_slug=None, pk=None):
     tag = None
     posts = BlogPost.objects.all()
     
     if tag_slug:
       tag = get_object_or_404(Tag, slug=tag_slug)
       posts = posts.filter(tags__in=[tag])
+
+    if pk:
+      category = get_object_or_404(Category, pk=pk)
+      posts = posts.filter(category__in=[category])
 
     paginator = Paginator(posts, 3)
     page = request.GET.get('page')
