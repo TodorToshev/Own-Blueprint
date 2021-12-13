@@ -70,13 +70,14 @@
                 <div class="col-lg-12">
                   <ul class="page-numbers">
                         {% if page.has_previous %}
-                            <li><a href="?page=1">&laquo; First</a></li>
-                            <li><a href="?page={{ page.previous_page_number }}">{{ page.previous_page_number }}</a></li>
+                            <li><a href="?term={{term}}&page=1">&laquo; First</a></li>
+                            <li><a href="?term={{term}}&page={{ page.previous_page_number }}">{{ page.previous_page_number }}</a></li>
                         {% endif %}                
                         <li class="active"><a href="#">{{ page.number }}</a></li>                
                         {% if page.has_next %}
-                            <li><a href="?page={{ page.next_page_number }}">{{ page.next_page_number }}</a></li>
-                            <li><a href="?page={{ page.paginator.num_pages }}">Last &raquo;</a></li>
+                            <!-- for MultiValueDictKeyError - add ?term={{term}}&page=.... -->
+                            <li><a href="?term={{term}}&page={{ page.next_page_number }}">{{ page.next_page_number }}</a></li>
+                            <li><a href="?term={{term}}&page={{ page.paginator.num_pages }}">Last &raquo;</a></li>
                         {% endif %}
                   </ul>
                 </div>

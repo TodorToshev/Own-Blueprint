@@ -40,7 +40,7 @@ def post_list(request, tag_slug=None, pk=None):
       category = get_object_or_404(Category, pk=pk)
       posts = posts.filter(category__in=[category])
 
-    paginator = Paginator(posts, 3)
+    paginator = Paginator(posts, 6)
     page = request.GET.get('page')
     try:
       posts = paginator.page(page)
@@ -143,13 +143,28 @@ class PostDeleteView(DeleteView):
     
 
 def basic_search(request):
-    if request.method == 'POST':
-      term = request.POST.get('term', default=False)
-      results = BlogPost.objects.filter(title__icontains=term) | \
-          BlogPost.objects.filter(content__icontains=term)
-      context = {'results': results,
-                 'term': term,
-                 'tags': Tag.objects.all(), }
-      return render(request, 'blog/search_result.html', context)
-    else:
-      return render(request, 'blog/search_result.html')
+    # if request.method == 'POST':
+    term = request.GET['term']
+    results = BlogPost.objects.filter(title__icontains=term) | \
+        BlogPost.objects.filter(content__icontains=term)
+
+    paginator = Paginator(results, 1)
+    page = request.GET.get('page')
+    try:
+      results = paginator.page(page)
+    except PageNotAnInteger:
+      # If page is not an integer deliver the first page
+      results = paginator.page(1)
+    except EmptyPage:
+      # If page is out of range deliver last page of results
+      results = paginator.page(paginator.num_pages)
+      
+    context = {'results': results,
+              'term': term,
+              'tags': Tag.objects.all(), 
+              'page': results,
+              }    
+            
+    return render(request, 'blog/search_result.html', context)
+    # else:
+    #   return render(request, 'blog/search_result.html')
