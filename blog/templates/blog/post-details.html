@@ -24,10 +24,10 @@
                       <img src=/media/{{post.title_image}} alt="">
                     </div>
                     <div class="down-content">
-                      <span>Lifestyle</span>
+                      <span>{{ post.category }}</span>
 
                         <div style="display: inline-block; width: 100%;">
-                          <a style="float: left;" href="post-details.html"><h4>{{ post.title }}</h4></a>                          
+                          <a style="float: left;"><h4>{{ post.title }}</h4></a>                          
                           {% if request.user == post.author %}
                             <a style="float: right;" class="btn btn-outline-danger" href="{% url "blog:edit_post" post.pk %}">Edit Post</a>
                           {% endif %}
@@ -36,7 +36,7 @@
                       <ul class="post-info">
                         <li><a href="#">{{ post.author }}</a></li>
                         <li><a href="#">{{ post.created }}</a></li>
-                        <li><a href="#">10 Comments</a></li>
+                        <li><a href="#">{{ post.post_comments.count}} comments</a></li>
                       </ul>
                       <p>
                         {{ post.content|safe }}
@@ -184,7 +184,7 @@
                     <div class="content">
                       <ul>
                         {% for category in categories %}
-                          <li><a href="#">{{ category }}</a></li>
+                          <li><a href="{% url 'blog:list_by_categ' category.pk %}">{{ category }}</a></li>
                         {% endfor %}
                       </ul>
                     </div>
@@ -198,7 +198,7 @@
                     <div class="content">
                       <ul>
                         {% for tag in tags %}
-                          <li><a href="#">{{ tag|title }}</a></li>
+                          <li><a href="{% url "blog:list_by_tag" tag.slug %}">{{ tag|title }}</a></li>
                         {% endfor %}
                       </ul>
                     </div>

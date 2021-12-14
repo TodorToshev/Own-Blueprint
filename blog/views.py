@@ -163,6 +163,7 @@ def basic_search(request):
               'term': term,
               'tags': Tag.objects.all(), 
               'page': results,
+              'categories': Category.objects.all(),
               }    
             
     return render(request, 'blog/search_result.html', context)

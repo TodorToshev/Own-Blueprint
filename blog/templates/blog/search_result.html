@@ -36,7 +36,7 @@
                                   <li><i class="fa fa-tags"></i></li>
 
                                   {% for tag in post.tags.all %}
-                                    <li><a href="#">{{ tag|title }}</a>,</li>
+                                    <li><a href="{% url "blog:list_by_tag" tag.slug %}">{{ tag|title }}</a>, </li>
                                   {% endfor %}
                                   
                                 </ul>
@@ -125,12 +125,9 @@
                     </div>
                     <div class="content">
                       <ul>
-                        <li><a href="#">- Nature Lifestyle</a></li>
-                        <li><a href="#">- Awesome Layouts</a></li>
-                        <li><a href="#">- Creative Ideas</a></li>
-                        <li><a href="#">- Responsive Templates</a></li>
-                        <li><a href="#">- HTML5 / CSS3 Templates</a></li>
-                        <li><a href="#">- Creative &amp; Unique</a></li>
+                        {% for category in categories %}
+                          <li><a href="{% url 'blog:list_by_categ' category.pk %}">{{ category }}</a></li>
+                        {% endfor %}
                       </ul>
                     </div>
                   </div>
@@ -143,7 +140,7 @@
                     <div class="content">
                       <ul>
                         {% for tag in tags %}
-                          <li><a href="#">{{ tag|title }}</a></li>
+                          <li><a href="{% url "blog:list_by_tag" tag.slug %}">{{ tag|title }}</a></li>
                         {% endfor %}
                       </ul>
                     </div>

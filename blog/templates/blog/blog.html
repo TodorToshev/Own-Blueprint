@@ -35,12 +35,12 @@
                         <img src=/media/{{post.title_image}} alt="">
                       </div>
                       <div class="down-content">
-                        <span>Lifestyle</span>
+                        <span>{{ post.category }}</span>
                         <a href="{% url 'blog:post_detail' post.id %}"><h4>{{ post.title }}</h4></a>
                         <ul class="post-info">
                           <li><a href="#">{{ post.author }}</a></li>
                           <li><a href="#">{{ post.created }}</a></li>
-                          <li><a href="#">12 Comments</a></li>
+                          <li><a href="#">{{ post.post_comments.count }} comments</a></li>
                         </ul>
                         <p>{{ post.content|safe|truncatechars:350 }}</p>
                         <div class="post-options">
