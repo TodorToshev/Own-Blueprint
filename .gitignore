@@ -3,3 +3,6 @@
 *.jpg
 *.jpeg
 *.png
+
+!cta-bg.jpg
+!heading-bg.jpg
