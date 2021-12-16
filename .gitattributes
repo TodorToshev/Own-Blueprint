@@ -1,1 +1,2 @@
-blog/static/js/* linguist-vendored
+* linguist-vendored
+*.js linguist-vendored=false
