@@ -40,7 +40,7 @@
                         <ul class="post-info">
                           <li><a href="#">{{ post.author }}</a></li>
                           <li><a href="#">{{ post.created }}</a></li>
-                          <li><a href="#">{{ post.post_comments.count }} comments</a></li>
+                          <li><a href="#">{{ post.post_comments.count }} comment{{ post.post_comments.count|pluralize }}</a></li>
                         </ul>
                         <p>{{ post.content|safe|truncatechars:350 }}</p>
                         <div class="post-options">

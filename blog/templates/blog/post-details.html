@@ -36,7 +36,7 @@
                       <ul class="post-info">
                         <li><a href="#">{{ post.author }}</a></li>
                         <li><a href="#">{{ post.created }}</a></li>
-                        <li><a href="#">{{ post.post_comments.count}} comments</a></li>
+                        <li><a href="#">{{ post.post_comments.count}} comment{{ post.post_comments.count|pluralize }}</a></li>
                       </ul>
                       <p>
                         {{ post.content|safe }}
@@ -69,7 +69,7 @@
                 <div class="col-lg-12">
                   <div class="sidebar-item comments">
                     <div class="sidebar-heading">
-                      <h2>{{ post_comments.count }} comments</h2>
+                      <h2>{{ post_comments.count }} comment{{ post.post_comments.count|pluralize }}</h2>
                     </div>
                     <div class="content">    
                       <ul>
