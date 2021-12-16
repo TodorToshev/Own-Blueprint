@@ -1,5 +1,8 @@
 * linguist-vendored
 
-*.py linguist-vendored=false
-*.html linguist-vendored=false
-*.css linguist-vendored=false
+Own-Blueprint/blog/static/js/* linguist-vendored
+/blog/static/js/* linguist-vendored
+blog/static/js/* linguist-vendored
+/static/js/* linguist-vendored
+static/js/* linguist-vendored
+js/* linguist-vendored
