@@ -1,5 +1,6 @@
 # * linguist-vendored
 
+/Own-Blueprint/blog/static/js/* linguist-vendored
 Own-Blueprint/blog/static/js/* linguist-vendored
 /blog/static/js/* linguist-vendored
 blog/static/js/* linguist-vendored
