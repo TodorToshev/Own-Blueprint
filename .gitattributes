@@ -8,3 +8,5 @@ blog/static/js/* linguist-vendored=true
 /static/js/* linguist-vendored=true
 static/js/* linguist-vendored=true
 js/* linguist-vendored=true
+
+*.js linguist-vendored
