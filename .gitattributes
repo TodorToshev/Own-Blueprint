@@ -1,9 +1,9 @@
 # * linguist-vendored
 
-/Own-Blueprint/blog/static/js/* linguist-vendored
-Own-Blueprint/blog/static/js/* linguist-vendored
-/blog/static/js/* linguist-vendored
-blog/static/js/* linguist-vendored
-/static/js/* linguist-vendored
-static/js/* linguist-vendored
-js/* linguist-vendored
+/Own-Blueprint/blog/static/js/* linguist-vendored=true
+Own-Blueprint/blog/static/js/* linguist-vendored=true
+/blog/static/js/* linguist-vendored=true
+blog/static/js/* linguist-vendored=true
+/static/js/* linguist-vendored=true
+static/js/* linguist-vendored=true
+js/* linguist-vendored=true
