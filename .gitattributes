@@ -1,12 +1,1 @@
-# * linguist-vendored
-$ cat .gitattributes
-
-/Own-Blueprint/blog/static/js/* linguist-vendored=true
-Own-Blueprint/blog/static/js/* linguist-vendored=true
-/blog/static/js/* linguist-vendored=true
-blog/static/js/* linguist-vendored=true
-/static/js/* linguist-vendored=true
-static/js/* linguist-vendored=true
-js/* linguist-vendored=true
-
 *.js linguist-vendored
