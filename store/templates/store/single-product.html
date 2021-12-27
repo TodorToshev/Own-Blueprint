@@ -1,104 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends 'store/base.html' %}
+{% block content %}
 
-  <head>
-
-    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.0.0-beta.3/assets/owl.carousel.min.css">
-    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.0.0-beta.3/assets/owl.theme.default.min.css">
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.0.0-beta.3/owl.carousel.min.js"></script>
-
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <link href="https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,500,600,700,800,900&display=swap" rel="stylesheet">
-
-    <title>Hexashop - Product Detail Page</title>
-
-
-    <!-- Additional CSS Files -->
-    <link rel="stylesheet" type="text/css" href="assets/css/bootstrap.min.css">
-
-    <link rel="stylesheet" type="text/css" href="assets/css/font-awesome.css">
-
-    <link rel="stylesheet" href="assets/css/templatemo-hexashop.css">
-
-    <link rel="stylesheet" href="assets/css/owl-carousel.css">
-
-    <link rel="stylesheet" href="assets/css/lightbox.css">
-<!--
-
-TemplateMo 571 Hexashop
-
-https://templatemo.com/tm-571-hexashop
-
--->
-    </head>
-    
-    <body>
-    
-    <!-- ***** Preloader Start ***** -->
-    <div id="preloader">
-        <div class="jumper">
-            <div></div>
-            <div></div>
-            <div></div>
-        </div>
-    </div>  
-    <!-- ***** Preloader End ***** -->
-    
-    
-    <!-- ***** Header Area Start ***** -->
-    <header class="header-area header-sticky">
-        <div class="container">
-            <div class="row">
-                <div class="col-12">
-                    <nav class="main-nav">
-                        <!-- ***** Logo Start ***** -->
-                        <a href="index.html" class="logo">
-                            <img src="assets/images/logo.png">
-                        </a>
-                        <!-- ***** Logo End ***** -->
-                        <!-- ***** Menu Start ***** -->
-                        <ul class="nav">
-                            <!-- <li class="scroll-to-section"><a href="index.html" class="active">Home</a></li> -->
-                            <li class="scroll-to-section"><a href="index.html">Men's</a></li>
-                            <li class="scroll-to-section"><a href="index.html">Women's</a></li>
-                            
-                            <li class="scroll-to-section"><a href="index.html">Kid's</a></li>
-                            <!-- <li class="submenu">
-                                <a href="javascript:;">Pages</a>
-                                <ul>
-                                    <li><a href="about.html">About Us</a></li>
-                                    <li><a href="products.html">Products</a></li>
-                                    <li><a href="single-product.html">Single Product</a></li>
-                                    <li><a href="contact.html">Contact Us</a></li>
-                                </ul>
-                            </li> -->
-                            <!-- <li class="submenu">
-                                <a href="javascript:;">Features</a>
-                                <ul>
-                                    <li><a href="#">Features Page 1</a></li>
-                                    <li><a href="#">Features Page 2</a></li>
-                                    <li><a href="#">Features Page 3</a></li>
-                                    <li><a rel="nofollow" href="https://templatemo.com/page/4" target="_blank">Template Page 4</a></li>
-                                </ul>
-                            </li> -->
-                            <li><a href="#"><i class="fa fa-shopping-cart" style="font-size: 17px"></i></a></li>
-                        </ul>        
-                        
-                        <a class='menu-trigger'>
-                            <span>Menu</span>
-                        </a>
-                        <!-- ***** Menu End ***** -->
-                    </nav>
-                </div>
-            </div>
-        </div>
-    </header>
-    <!-- ***** Header Area End ***** -->
 
     <!-- ***** Main Banner Area Start ***** -->
     <div class="page-heading" id="top">
@@ -123,13 +25,17 @@ https://templatemo.com/tm-571-hexashop
                 <div class="col-md-5">
                     <div class="carousel slide" data-ride="carousel" id="carousel-1">
                         <div class="carousel-inner" role="listbox">
-                            <div class="carousel-item active"><img class="img-thumbnail w-100 d-block" src="https://i.imgur.com/U46TQz6.jpg" alt="Slide Image" loading="lazy"></div>
-                            <div class="carousel-item"><img class="img-thumbnail w-100 d-block" src="https://i.imgur.com/YOWv57X.jpg" alt="Slide Image"></div>
-                            <div class="carousel-item"><img class="img-thumbnail w-100 d-block" src="https://i.imgur.com/gLYZpMo.jpg" alt="Slide Image"></div>
+
+                            {% for img in product.productimage_set.all %}
+                                <!-- class 'active' is necessary for the carousel to work. IF we're on the 
+                                first iteration, the check adds 'active' to the class. -->
+                                <div class="carousel-item {% if forloop.first %} active {% endif %}"><img class="img-thumbnail w-100 d-block" src="{{ img.image.url }}" alt="Slide Image" loading="lazy"></div>
+                            {% endfor %}
+
                         </div>
                         <div><a class="carousel-control-prev" href="#carousel-1" role="button" data-slide="prev"><span class="carousel-control-prev-icon"></span><span class="sr-only">Previous</span></a><a class="carousel-control-next" href="#carousel-1" role="button" data-slide="next"><span class="carousel-control-next-icon"></span><span class="sr-only">Next</span></a></div>
                         <ol class="carousel-indicators">
-                            <li data-target="#carousel-1" data-slide-to="0" class="active"></li>
+                            <li data-target="#carousel-1" data-slide-to="0" class="active"></li>    
                             <li data-target="#carousel-1" data-slide-to="1"></li>
                             <li data-target="#carousel-1" data-slide-to="2"></li>
                         </ol>
@@ -137,15 +43,15 @@ https://templatemo.com/tm-571-hexashop
             </div>
             <div class="col-lg-7">
                 <div class="right-content">
-                    <h4>New Green Jacket</h4>
-                    <span class="price">$75.00</span>
+                    <h4>{{ product.name }}</h4>
+                    <span class="price">${{ product.price }}</span>
                     <ul class="stars">
                         <li><i class="fa fa-star"></i></li>
                         <li><i class="fa fa-star"></i></li>
                         <li><i class="fa fa-star"></i></li>
                         <li><i class="fa fa-star"></i></li>
                         <li><i class="fa fa-star"></i></li>
-                        <p style='margin-left: 5px; display: inline'>Rating XXX | XXX Comments</p>
+                        <p style='margin-left: 5px; display: inline'>Rating {{ product.rating }} | {{ product.comments }} Comments</p>
                     </ul>
                     <span>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod kon tempor incididunt ut labore.</span>
                     <div class="quote">
@@ -164,7 +70,13 @@ https://templatemo.com/tm-571-hexashop
 
                     <div class="size-content">
                         <div class="left-content">
-                            <h4>Size: </h4>
+                            <h4>
+                                Size: 
+                                {% for size in sizes %}
+                                    {{ size }}
+                                {% endfor %}
+                                # FIX: this must not be displaying sizes, but displaying form to choose available sizes.
+                            </h4>
                         </div>
                     </div>
 
@@ -182,7 +94,9 @@ https://templatemo.com/tm-571-hexashop
     
 
     <!-- Description, Details & Reviews start here: -->
+    
     <div class="container card d-flex justify-content-center mt-5" style="border: 0px">
+        <h2 style='text-align:center'># FIX reviews</h2>
         <ul class="nav" id="pills-tab" role="tablist">
             <li class="nav-item"> <a class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home" aria-selected="true">Description</a> </li>
             <li class="nav-item"> <a class="nav-link" id="pills-profile-tab" data-toggle="pill" href="#pills-profile" role="tab" aria-controls="pills-profile" aria-selected="false">Operators</a> </li>
@@ -192,10 +106,7 @@ https://templatemo.com/tm-571-hexashop
             <!-- 1st card -->
             <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
                 <p style="padding: 15px">
-                    Lorem Ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut
-                    , eos et dolor in, sed do eiusmod tempor incididunt ut lab et dolor. Lore m, Lorem Ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut
-                    , eos et dolor in, sed do eiusmod tempor incididunt ut lab et dolor. Lore m, Lorem Ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut
-                    , eos et dolor in, sed do eiusmod tempor incididunt ut lab et dolor. Lore m, .
+                    {{ product.description }}
                 </p>
             </div> <!-- 2nd card -->
             <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
@@ -222,13 +133,7 @@ https://templatemo.com/tm-571-hexashop
                                 star
                             </div>
                             <ul class="rating">
-                                
-                                {{% for _ in range(5) %}}
-                                    <i class="fa fa-star"></i>
-                                {{% endfor %}}
-                                {{ queryset.count(5) }}
-
-                                ...repeat for other 4
+                                <i class="fa fa-star"></i>
                             </ul>
                         </div>
                     </div>
@@ -256,7 +161,7 @@ https://templatemo.com/tm-571-hexashop
                                 ...
                             </ul>
 
-                            <h4>PAGINATE HERE!</h4>
+                            <h4>PAGINATE HERE! also add form</h4>
 
                         </div>
                     </div>
@@ -299,7 +204,9 @@ https://templatemo.com/tm-571-hexashop
     <!-- custom 'Similar products carousel' -->
     
     <div class="container prod-carous">
+       
         <h4 class="gen-t">Similar Products</h4>
+        <h2 style="text-align: center;">FIX </h2>
         <div class="row">
             <div class="owl-carousel owl-theme">
                 <div class="item">
@@ -344,132 +251,7 @@ https://templatemo.com/tm-571-hexashop
     </div>
     <!-- custom 'Similar products carousel' ends here -->
     
-    <!-- ***** Footer Start ***** -->
-    <footer>
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-3">
-                    <div class="first-item">
-                        <div class="logo">
-                            <img src="assets/images/white-logo.png" alt="hexashop ecommerce templatemo">
-                        </div>
-                        <ul>
-                            <li><a href="#">16501 Collins Ave, Sunny Isles Beach, FL 33160, United States</a></li>
-                            <li><a href="#">hexashop@company.com</a></li>
-                            <li><a href="#">010-020-0340</a></li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="col-lg-3">
-                    <h4>Shopping &amp; Categories</h4>
-                    <ul>
-                        <li><a href="#">Men’s Shopping</a></li>
-                        <li><a href="#">Women’s Shopping</a></li>
-                        <li><a href="#">Kid's Shopping</a></li>
-                    </ul>
-                </div>
-                <div class="col-lg-3">
-                    <h4>Useful Links</h4>
-                    <ul>
-                        <li><a href="#">Homepage</a></li>
-                        <li><a href="#">About Us</a></li>
-                        <li><a href="#">Help</a></li>
-                        <li><a href="#">Contact Us</a></li>
-                    </ul>
-                </div>
-                <div class="col-lg-3">
-                    <h4>Help &amp; Information</h4>
-                    <ul>
-                        <li><a href="#">Help</a></li>
-                        <li><a href="#">FAQ's</a></li>
-                        <li><a href="#">Shipping</a></li>
-                        <li><a href="#">Tracking ID</a></li>
-                    </ul>
-                </div>
-                <div class="col-lg-12">
-                    <div class="under-footer">
-                        <p>Copyright © 2022 HexaShop Co., Ltd. All Rights Reserved. 
-                        
-                        <br>Design: <a href="https://templatemo.com" target="_parent" title="free css templates">TemplateMo</a></p>
-                        <ul>
-                            <li><a href="#"><i class="fa fa-facebook"></i></a></li>
-                            <li><a href="#"><i class="fa fa-twitter"></i></a></li>
-                            <li><a href="#"><i class="fa fa-linkedin"></i></a></li>
-                            <li><a href="#"><i class="fa fa-behance"></i></a></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </footer>
     
-
-    <!-- jQuery -->
-    <script src="assets/js/jquery-2.1.0.min.js"></script>
-
-    <!-- Bootstrap -->
-    <script src="assets/js/popper.js"></script>
-    <script src="assets/js/bootstrap.min.js"></script>
-
-    <!-- Plugins -->
-    <script src="assets/js/owl-carousel.js"></script>
-    <script src="assets/js/accordions.js"></script>
-    <script src="assets/js/datepicker.js"></script>
-    <script src="assets/js/scrollreveal.min.js"></script>
-    <script src="assets/js/waypoints.min.js"></script>
-    <script src="assets/js/jquery.counterup.min.js"></script>
-    <script src="assets/js/imgfix.min.js"></script> 
-    <script src="assets/js/slick.js"></script> 
-    <script src="assets/js/lightbox.js"></script> 
-    <script src="assets/js/isotope.js"></script> 
-    <script src="assets/js/quantity.js"></script>
-    
-    <!-- Global Init -->
-    <script src="assets/js/custom.js"></script>
-
-    <script>
-
-        $(function() {
-            var selectedClass = "";
-            $("p").click(function(){
-            selectedClass = $(this).attr("data-rel");
-            $("#portfolio").fadeTo(50, 0.1);
-                $("#portfolio div").not("."+selectedClass).fadeOut();
-            setTimeout(function() {
-              $("."+selectedClass).fadeIn();
-              $("#portfolio").fadeTo(50, 1);
-            }, 500);
-                
-            });
-        });
-
-    </script>
-
-    <!-- Setup carousel: -->
-        <script type="text/javascript">
-            $('.owl-carousel').owlCarousel({
-                loop:true,
-                center:true,
-                margin:10,
-                nav:true,
-                autoplay:true,
-                autoplayTimeout:4000,
-                autoplayHoverPause:true,
-                responsive:{
-                    0:{
-                        items:1
-                    },
-                    600:{
-                        items:3
-                    },
-                    1000:{
-                        items:5
-                    }
-                }
-                
-            })        
-        </script>    
-
     <!-- Call carousel: -->
         <script type="text/javascript">            
             $(document).ready(function() {
@@ -480,3 +262,4 @@ https://templatemo.com/tm-571-hexashop
   </body>
 
 </html>
+{% endblock %}
