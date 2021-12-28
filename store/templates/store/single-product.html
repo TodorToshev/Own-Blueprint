@@ -71,11 +71,11 @@
                     <div class="size-content">
                         <div class="left-content">
                             <h4>
-                                Size: 
-                                {% for size in sizes %}
-                                    {{ size }}
+                                {{ size_form }}
+                                {{ size_form.get_size_display }}
+                                {% for f in size_form %}
+                                {{ f.get_size_display }}
                                 {% endfor %}
-                                # FIX: this must not be displaying sizes, but displaying form to choose available sizes.
                             </h4>
                         </div>
                     </div>
