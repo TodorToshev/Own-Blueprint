@@ -76,6 +76,16 @@
                                 {% for f in size_form %}
                                 {{ f.get_size_display }}
                                 {% endfor %}
+
+
+                                {% for choice in choices %}
+                                    <button type="button" class="btn btn-outline-secondary">{{ choice }}</button>
+                                    
+                                {% endfor %}
+
+                                <!-- {% for sze in size_form.size %}
+                                    <button type="button" class="btn btn-outline-secondary">text{{ sze.label }}</button>
+                                {% endfor %} -->
                             </h4>
                         </div>
                     </div>

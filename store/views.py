@@ -17,5 +17,15 @@ def single_product(request, pk):
     
     size_form = SizeForm(product)
 
-    context = {'product': product, 'sizes': product_sizes, 'size_form': size_form}
+    #access the form's "fields" attribute, which returns a dict: 
+    #'size': <django.forms.fields.ChoiceField object...>.
+    #Accessing the value, corresponding to the "size" fields
+    #returns the object. Accessing the "choices" attribute returns
+    #a tuple of the choices.
+    choices_tuple = size_form.fields['size'].choices
+
+    #Return a list of the individual choices.
+    choices = list(map(lambda x: x[0], choices_tuple))
+
+    context = {'product': product, 'sizes': product_sizes, 'size_form': size_form, 'choices': choices}
     return render(request, 'store/single-product.html', context)
