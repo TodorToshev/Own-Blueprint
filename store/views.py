@@ -1,6 +1,6 @@
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404, render, redirect
 from .models import Product
-from .forms import SizeForm
+from .forms import OrderForm
 
 # Create your views here.
 
@@ -13,19 +13,14 @@ def products(request):
 
 def single_product(request, pk):
     product = get_object_or_404(Product, pk=pk)
-    product_sizes = product.sizes.all()
     
-    size_form = SizeForm(product)
+    order_form = OrderForm(product)
 
-    #access the form's "fields" attribute, which returns a dict: 
-    #'size': <django.forms.fields.ChoiceField object...>.
-    #Accessing the value, corresponding to the "size" fields
-    #returns the object. Accessing the "choices" attribute returns
-    #a tuple of the choices.
-    choices_tuple = size_form.fields['size'].choices
-
-    #Return a list of the individual choices.
-    choices = list(map(lambda x: x[0], choices_tuple))
-
-    context = {'product': product, 'sizes': product_sizes, 'size_form': size_form, 'choices': choices}
+    context = {'product': product, 'order_form': order_form}
     return render(request, 'store/single-product.html', context)
+
+
+def order_view(request):
+    #request.GET: QueryDict: {'quantity': ['3'], 'size': ['M']}
+    return render(request, 'store/index.html')
+    #TODO add if form is valid submit or sth idk. Save to db Order mdel?

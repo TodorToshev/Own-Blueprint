@@ -57,43 +57,44 @@
                     <div class="quote">
                         <i class="fa fa-quote-left"></i><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiuski smod.</p>
                     </div>
-                    <div class="quantity-content">
-                        <div class="left-content">
-                            <h6>No. of Orders</h6>
-                        </div>
-                        <div class="right-content">
-                            <div class="quantity buttons_added">
-                                <input type="button" value="-" class="minus"><input type="number" step="1" min="1" max="" name="quantity" value="1" title="Qty" class="input-text qty text" size="4" pattern="" inputmode=""><input type="button" value="+" class="plus">
+
+                    <form action="{% url 'store:order' %}" method="GET">
+                        <div class="quantity-content" >
+                            <div class="left-content">
+                                <h6>No. of Orders</h6>
+                            </div>
+                            <div class="right-content">
+                                <div class="quantity buttons_added">
+                                    {{order_form.quantity}}
+                                </div>
                             </div>
                         </div>
-                    </div>
 
-                    <div class="size-content">
-                        <div class="left-content">
-                            <h4>
-                                {{ size_form }}
-                                {{ size_form.get_size_display }}
-                                {% for f in size_form %}
-                                {{ f.get_size_display }}
-                                {% endfor %}
-
-
-                                {% for choice in choices %}
-                                    <button type="button" class="btn btn-outline-secondary">{{ choice }}</button>
-                                    
-                                {% endfor %}
-
-                                <!-- {% for sze in size_form.size %}
-                                    <button type="button" class="btn btn-outline-secondary">text{{ sze.label }}</button>
-                                {% endfor %} -->
-                            </h4>
+                        <div class="size-content">
+                            <div class="left-content">
+                                <h4>Size:
+                                    {% for choice in order_form.size %}
+                                    <button type="button" class="size-btn">{{ choice }}</button>
+                                    {% endfor %} 
+                                </h4>
+                            </div>
                         </div>
-                    </div>
 
-                    <div class="total">
-                        <h4>Total: $210.00</h4>
-                        <div class="main-border-button"><a href="#">Add To Cart</a></div>
-                    </div>
+                        <div class="total">
+                            <h4>Total: $210.00</h4>
+                                <input class="main-add-button" type="submit" value="Add To Cart">
+                        </div>
+                    </form>
+
+                    {% if order_form.errors %}
+                    {% for field in order_form %}
+                        {% for error in field.errors %} 
+                            <div class="alert alert-danger">
+                                <strong>{{ error|escape }}</strong>
+                            </div>
+                        {% endfor %}
+                    {% endfor %}
+                    {% endif %}
                 </div>
             </div>
             </div>

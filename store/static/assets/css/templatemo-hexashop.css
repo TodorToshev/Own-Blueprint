@@ -1858,13 +1858,14 @@ Single Product Page
   text-align: right;
 }
 
+
 .total .main-border-button a {
   margin-top: 30px;
   border-color: #2a2a2a;
   color: #2a2a2a;
 }
 
-.total .main-border-button a:hover {
+.total .main-add-button input:hover {
   color: #fff;
   background-color: #2a2a2a;
 }
@@ -2658,3 +2659,53 @@ a:hover {
   text-align: left;
 }
 
+.size-btn {
+  color: #aaa;
+  padding-left: 15px;
+  padding-right: 15px;
+  padding-top: 10px;
+  align-content: center;
+  margin-left: 20px;
+  background-color: transparent;
+  border-color: #aaa;
+  font-size: 14px;
+  font-weight: 500;
+  display: inline-block;
+  text-align: center;
+  vertical-align: middle;
+  border: 2px solid;
+  border-radius: 0.45rem;
+}
+.size-btn:hover {
+  color: rgb(55, 165, 79);
+  transition: 0.5s;
+
+}
+
+.main-add-button {
+  margin-top: 30px;
+  border-color: #2a2a2a;
+  color: #2a2a2a;
+  width: auto;
+  padding: 12px 25px;
+  font-weight: 500;
+  background-color: transparent;
+  box-sizing: border-box;
+  float: right
+}
+
+.main-add-button:hover {
+  background-color: rgb(199, 199, 199);
+  transition: .5s
+}
+
+input[type="radio"]{
+  all:revert;
+  visibility: hidden;
+  position: absolute; 
+}
+
+label input[type=radio]{
+  float: center;
+  position: absolute;
+}
