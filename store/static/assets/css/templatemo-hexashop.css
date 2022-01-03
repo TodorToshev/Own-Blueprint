@@ -1739,6 +1739,7 @@ Single Product Page
   position: relative;
   z-index: 3;
   background-color: #fff;
+  /* float: right; */
 }
 
 #product .right-content h4 {
@@ -1811,7 +1812,7 @@ Single Product Page
   border-top: 1px solid #eee;
   border-bottom: 1px solid #eee;
   width: 100%;
-  padding-bottom: 30px;
+  padding-bottom: 70px;
   margin-bottom: 30px;
 }
 
@@ -1834,6 +1835,9 @@ Single Product Page
 
 .quantity-content .right-content {
   text-align: right;
+}
+.right-content {
+  float: right;
 }
 
 .quantity-content .left-content h6 {
@@ -2709,3 +2713,4 @@ label input[type=radio]{
   float: center;
   position: absolute;
 }
+

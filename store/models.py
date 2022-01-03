@@ -31,3 +31,17 @@ class Product(models.Model):
 class ProductImage(models.Model):
     product = models.ForeignKey(Product, default=None, on_delete=models.CASCADE)
     image = models.ImageField(upload_to='products/%Y/%m/%d', blank=True, null=True, default='products/def.jpg')
+
+
+
+class ProductComment(models.Model):
+    name = models.CharField(max_length=250, blank=False)
+    product = models.ForeignKey(
+        Product, related_name='product_comments', on_delete=models.CASCADE, null=False)
+    email = models.EmailField(max_length=100)
+    subject = models.CharField(max_length=100)
+    comment = models.TextField(max_length=500)
+    date_added = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Comment {self.subject} by {self.name}"

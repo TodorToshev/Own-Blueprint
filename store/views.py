@@ -1,6 +1,6 @@
 from django.shortcuts import get_object_or_404, render, redirect
 from .models import Product
-from .forms import OrderForm
+from .forms import CommentForm, OrderForm
 
 # Create your views here.
 
@@ -13,10 +13,12 @@ def products(request):
 
 def single_product(request, pk):
     product = get_object_or_404(Product, pk=pk)
+
+    comment_form = CommentForm()
     
     order_form = OrderForm(product)
 
-    context = {'product': product, 'order_form': order_form}
+    context = {'product': product, 'order_form': order_form, 'comment_form': comment_form}
     return render(request, 'store/single-product.html', context)
 
 
