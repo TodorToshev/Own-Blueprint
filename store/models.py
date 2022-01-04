@@ -27,6 +27,9 @@ class Product(models.Model):
     def __str__(self):
         return self.name
 
+    def get_absolute_url(self):
+        return f"/store/product/{self.id}"
+
 
 class ProductImage(models.Model):
     product = models.ForeignKey(Product, default=None, on_delete=models.CASCADE)
@@ -34,10 +37,10 @@ class ProductImage(models.Model):
 
 
 
-class ProductComment(models.Model):
+class ProductReview(models.Model):
     name = models.CharField(max_length=250, blank=False)
     product = models.ForeignKey(
-        Product, related_name='product_comments', on_delete=models.CASCADE, null=False)
+        Product, related_name='product_reviews', on_delete=models.CASCADE, null=False)
     email = models.EmailField(max_length=100)
     comment = models.TextField(max_length=500)
     #validator not really necessary.

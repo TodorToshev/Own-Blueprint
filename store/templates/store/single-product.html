@@ -1,6 +1,7 @@
 {% extends 'store/base.html' %}
 {% block content %}
 {% load crispy_forms_tags %}
+{% load filters %}
 
 
     <!-- ***** Main Banner Area Start ***** -->
@@ -151,25 +152,31 @@
                     <div class="col-md-6">
                         <div id="reviews">
                             <ul class="reviews">
+                                {% for review in reviews %}
                                 <li>
                                     <div class="review-heading">
-                                        <h5 class="name">John</h5>
-                                        <p class="date">27 DEC 2018, 8:0 PM</p>
+                                        <h5 class="name">{{ review.name }}</h5>
+                                        <p class="date">{{ review.date_added }}</p>
                                         <div class="review-rating">
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star-o empty"></i>
+                                            <!-- uses custom template filters -->
+                                            {% for _ in review.rating|times %}
+                                                <i class="fa fa-star"></i>
+                                            {% endfor %}
+                                            
+                                            {% for _ in review.rating|rest %}
+                                                <i class="fa fa-star-o empty"></i>
+                                            {% endfor %}                                            
                                         </div>
                                     </div>
                                     <div class="review-body">
                                         <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua</p>
                                     </div>
                                 </li>
+                                {% endfor %}
                                 
                                 ...
                             </ul>
+                            {{ reviews }}
 
                             <h4>PAGINATE HERE!</h4>
 
@@ -180,7 +187,7 @@
                         <div id="review-form">
                             <form class="review-form" name='review' method="post">
                                 {% csrf_token %}
-                                {{ comment_form|crispy }}
+                                {{ review_form|crispy }}
                                     <div class="rating"> 
                                         <input type="checkbox" name="rating_val" value="5" id="5">
                                         <label for="5">☆</label> 

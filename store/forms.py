@@ -1,5 +1,5 @@
 from django import forms
-from .models import ProductComment
+from .models import ProductReview
 
 PRODUCT_QUANTITY_CHOICES = [(i, str(i)) for i in range(1, 21)]
 
@@ -20,16 +20,16 @@ class OrderForm(forms.Form):
         
         self.fields['quantity'] = forms.IntegerField(widget=forms.NumberInput(attrs={'class': 'form-control'}), initial=1)
 
-class CommentForm(forms.ModelForm):
+class ReviewForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
-        super(CommentForm, self).__init__(*args, **kwargs)
+        super(ReviewForm, self).__init__(*args, **kwargs)
         
         #remove help text from form fields
         for field in self.fields:
             self.fields[field].label = ''
 
     class Meta:
-        model = ProductComment
+        model = ProductReview
         fields = ['name', 'email', 'comment',]
         widgets = {'name': forms.widgets.TextInput(attrs={
                    'placeholder': 'Name'}),

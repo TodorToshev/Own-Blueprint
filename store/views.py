@@ -1,6 +1,6 @@
 from django.shortcuts import get_object_or_404, render, redirect
-from .models import Product, ProductComment
-from .forms import CommentForm, OrderForm
+from .models import Product, ProductReview
+from .forms import ReviewForm, OrderForm
 
 # Create your views here.
 
@@ -13,21 +13,23 @@ def products(request):
 
 def single_product(request, pk):
     product = get_object_or_404(Product, pk=pk)
+    reviews = product.product_reviews.all()
 
     order_form = OrderForm(product)
     
     if request.method == 'POST':
-        comment_form = CommentForm(request.POST)
-        if comment_form.is_valid():
-            new_review = ProductComment(name=comment_form.cleaned_data['name'], product=product, 
-                          email=comment_form.cleaned_data['email'], comment=comment_form.cleaned_data['comment'], 
+        review_form = ReviewForm(request.POST)
+        if review_form.is_valid():
+            new_review = ProductReview(name=review_form.cleaned_data['name'], product=product, 
+                          email=review_form.cleaned_data['email'], comment=review_form.cleaned_data['comment'], 
                           rating=int(request.POST['rating_val']))
-            new_review.save()            
+            new_review.save()
+            return redirect(product.get_absolute_url())
         else:
-            print(comment_form.errors)
+            print(review_form.errors)
         
-    comment_form = CommentForm()
-    context = {'product': product, 'order_form': order_form, 'comment_form': comment_form}
+    review_form = ReviewForm()
+    context = {'product': product, 'order_form': order_form, 'review_form': review_form, 'reviews': reviews,}
     return render(request, 'store/single-product.html', context)
 
 
