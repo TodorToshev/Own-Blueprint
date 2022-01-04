@@ -15,6 +15,7 @@ class ProductListView(ListView):
     model = Product
     template_name = 'store/products.html'
     context_object_name = 'products'
+    paginate_by = 9
 
 
 def single_product(request, pk):
