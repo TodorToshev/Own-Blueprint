@@ -1,6 +1,7 @@
 {% extends 'store/base.html' %}
 {% load static %}
 {% block content %}
+{% load filters %}
 
     <!-- ***** Main Banner Area Start ***** -->
     <div class="page-heading" id="top">
@@ -78,32 +79,42 @@
         </div>
         <div class="container">
             <div class="row">
-                <div class="col-lg-4">
-                    <div class="item">
-                        <div class="thumb">
-                            <div class="hover-content">
-                                <ul>
-                                    <li><a href="single-product.html"><i class="fa fa-eye"></i></a></li>
-                                    <li><a href="single-product.html"><i class="fa fa-star"></i></a></li>
-                                    <li><a href="single-product.html"><i class="fa fa-shopping-cart"></i></a></li>
+
+                {% for product in products %}
+                    <!-- one option for linking to product page: -->
+                    <div class="col-lg-4" style="cursor: pointer;"  onclick=window.location="{% url "store:product" product.id %}">
+                        <div class="item">
+                            <div class="thumb">
+                                <div class="hover-content">
+                                    <ul>
+                                        <!-- second option: -->
+                                        <li><a href="{% url "store:product" product.id %}"><i class="fa fa-eye"></i></a></li>
+                                        <li><a href="#"><i class="fa fa-star"></i></a></li>
+                                        <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
+                                    </ul>
+                                </div>
+                                <img src="{{ product.product_images.first.image.url }}" alt="">
+                            </div>
+                            <div class="down-content">
+                                <h4>{{ product.name }}</h4>
+                                <span>{{ product.price }}</span>
+                                <ul class="stars">
+                                    {% if product.rating %}                                   
+                                        {% for _ in product.rating|times %}
+                                                    <i class="fa fa-star"></i>
+                                        {% endfor %}
+                                        
+                                        {% for _ in product.rating|rest %}
+                                            <i class="fa fa-star-o empty"></i>
+                                        {% endfor %}
+                                    {% endif %}
                                 </ul>
                             </div>
-                            <img src="{% static "assets/images/men-01.jpg" %}" alt="">
-                        </div>
-                        <div class="down-content">
-                            <h4>Classic Spring</h4>
-                            <span>$120.00</span>
-                            <ul class="stars">
-                                <li><i class="fa fa-star"></i></li>
-                                <li><i class="fa fa-star"></i></li>
-                                <li><i class="fa fa-star"></i></li>
-                                <li><i class="fa fa-star"></i></li>
-                                <li><i class="fa fa-star"></i></li>
-                            </ul>
                         </div>
                     </div>
-                </div>
-                <div class="col-lg-4">
+                {% endfor %}
+
+                <!-- <div class="col-lg-4">
                     <div class="item">
                         <div class="thumb">
                             <div class="hover-content">
@@ -302,7 +313,9 @@
                             </ul>
                         </div>
                     </div>
-                </div>
+                </div> -->
+
+
                 <div class="col-lg-12">
                     <div class="pagination">
                         <ul>
