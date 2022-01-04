@@ -39,9 +39,11 @@ class ProductComment(models.Model):
     product = models.ForeignKey(
         Product, related_name='product_comments', on_delete=models.CASCADE, null=False)
     email = models.EmailField(max_length=100)
-    subject = models.CharField(max_length=100)
     comment = models.TextField(max_length=500)
+    #validator not really necessary.
+    rating = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(5)])
     date_added = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"Comment {self.subject} by {self.name}"
+        return f"Comment by {self.name}"
+

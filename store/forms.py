@@ -30,7 +30,7 @@ class CommentForm(forms.ModelForm):
 
     class Meta:
         model = ProductComment
-        fields = ['name', 'email', 'comment']
+        fields = ['name', 'email', 'comment',]
         widgets = {'name': forms.widgets.TextInput(attrs={
                    'placeholder': 'Name'}),
                 'email': forms.widgets.TextInput(attrs={

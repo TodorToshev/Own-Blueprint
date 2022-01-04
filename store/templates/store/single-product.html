@@ -178,8 +178,25 @@
 
                     <div class="col-md-3">
                         <div id="review-form">
-                            <form class="review-form">
+                            <form class="review-form" name='review' method="post">
+                                {% csrf_token %}
                                 {{ comment_form|crispy }}
+                                    <div class="rating"> 
+                                        <input type="checkbox" name="rating_val" value="5" id="5">
+                                        <label for="5">☆</label> 
+                                        <input type="checkbox" name="rating_val" value="4" id="4">
+                                        <label for="4">☆</label> 
+                                        <input type="checkbox" name="rating_val" value="3" id="3">
+                                        <label for="3">☆</label> 
+                                        <input type="checkbox" name="rating_val" value="2" id="2">
+                                        <label for="2">☆</label> 
+                                        <input type="checkbox" name="rating_val" value="1" id="1">
+                                        <label for="1">☆</label>
+                                        </div>
+
+                                    <!-- <input type="hidden"  name='product_id' value="{{ product.id }}"> -->
+
+                                <input type="submit" value="Submit" class="main-add-button" style="width: 100%;">
                             </form>
                         </div>
                     </div>
