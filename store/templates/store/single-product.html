@@ -3,6 +3,9 @@
 {% load crispy_forms_tags %}
 {% load filters %}
 
+<!-- already in base.html, but carousel doesn't work w/o the following 2 lines. -->
+{% load static %}
+<script src="{% static "assets/js/jquery-2.1.0.min.js" %}"></script>
 
     <!-- ***** Main Banner Area Start ***** -->
     <div class="page-heading" id="top">
@@ -306,43 +309,28 @@
         <h2 style="text-align: center;">FIX </h2>
         <div class="row">
             <div class="owl-carousel owl-theme">
-                <div class="item">
-                    <div class="thumb">
-                        <img src="assets/images/men-01.jpg" alt="">
-                    </div>
-                    <div class="down-content">
-                        <h4>Classic Spring</h4>
-                        <span>$120.00</span>
-                        <span class="inline-stars">
-                            <ul class="stars">
-                                <li><i class="fa fa-star"></i></li>
-                                <li><i class="fa fa-star"></i></li>
-                                <li><i class="fa fa-star"></i></li>
-                                <li><i class="fa fa-star"></i></li>
-                                <li><i class="fa fa-star"></i></li>
-                            </ul>
-                    </span>
-                    </div>
-                </div>
-                <div class="item">
-                    <div class="thumb">
-                        <img src="assets/images/men-02.jpg" alt="">
-                    </div>
-                    <div class="down-content">
-                        <h4>Air Force 1 X</h4>
-                        <span>$90.00</span>
-                        <span class="inline-stars">
-                            <ul class="stars">
-                                <li><i class="fa fa-star"></i></li>
-                                <li><i class="fa fa-star"></i></li>
-                                <li><i class="fa fa-star"></i></li>
-                                <li><i class="fa fa-star"></i></li>
-                                <li><i class="fa fa-star"></i></li>
-                            </ul>
+                {% for product in similar_products %}
+                    <div class="item">
+                        <div class="thumb">
+                            <img src="{{ product.product_images.first.image.url }}" alt="">
+                        </div>
+                        <div class="down-content">
+                            <h4>{{ product.name }}</h4>
+                            <span>{{ product.price }}</span>
+                            <span class="inline-stars">
+                                <ul class="stars">
+                                    <li><i class="fa fa-star"></i></li>
+                                    <li><i class="fa fa-star"></i></li>
+                                    <li><i class="fa fa-star"></i></li>
+                                    <li><i class="fa fa-star"></i></li>
+                                    <li><i class="fa fa-star"></i></li>
+                                </ul>
                         </span>
+                        </div>
                     </div>
-                </div>
-        </div>
+                {% endfor %}
+            </div>
+
             
         </div>
     </div>
@@ -350,13 +338,19 @@
     
     
     <!-- Call carousel: -->
-        <script type="text/javascript">            
-            $(document).ready(function() {
-                ('.owl-carousel').owlCarousel();                
+        <script>
+            $(document).ready(function(){
+                $(".owl-carousel").owlCarousel({
+                loop:true,
+                margin:10,
+                autoplay:true,
+                autoplayTimeout:2000,
+                autoplayHoverPause:true,
+            });
             });
         </script>
-
-  </body>
+  
+    </body>
 
 </html>
 {% endblock %}

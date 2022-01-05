@@ -1,3 +1,4 @@
+from django.db.models import Count
 from django.shortcuts import get_object_or_404, render, redirect
 from .models import Product, ProductReview
 from .forms import ReviewForm, OrderForm
@@ -31,6 +32,15 @@ def single_product(request, pk):
     one_star = len(product.product_reviews.filter(rating=1))
     ratings = {'os': one_star, 'ts': two_star, 'trs': three_star, 'fs': four_star, 'fvs': five_star}
 
+    #similar products:
+    product_tags_ids = product.tags.values_list('id', flat=True)
+    print(product_tags_ids)
+    similar_products = Product.objects.filter(tags__in=product_tags_ids).exclude(id=product.id)
+    print(similar_products)
+    similar_products = similar_products.annotate(same_tags=Count('tags')).order_by('-same_tags',)[:4]
+    print(similar_products)
+
+
     reviews = product.product_reviews.all()
 
     order_form = OrderForm(product)
@@ -50,7 +60,7 @@ def single_product(request, pk):
 
         
     review_form = ReviewForm()
-    context = {'product': product, 'order_form': order_form, 'review_form': review_form, 'reviews': reviews, 'avg_prod_rating': avg_prod_rating, }
+    context = {'product': product, 'order_form': order_form, 'review_form': review_form, 'reviews': reviews, 'avg_prod_rating': avg_prod_rating, 'similar_products': similar_products}
     context.update(ratings)
     return render(request, 'store/single-product.html', context)
 
