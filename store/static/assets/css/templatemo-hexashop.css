@@ -2596,7 +2596,7 @@ input {
     padding: 1vh;
     margin-bottom: 4vh;
     outline: none;
-    width: 100%;
+    /* width: 100%; IF STH BREAKS REMOVE COMMENT*/
     background-color: rgb(247, 247, 247)
 }
 

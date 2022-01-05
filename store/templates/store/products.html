@@ -24,41 +24,35 @@
 
     <!-- Sidebar: -->
     <div class="col-lg-4">
-        
         <section class="sidebar">
-            <div class="border-bottom pb-2 ml-2">
+            <div class="border-bottom pb-2 ml-3">
                 <h4>Filters</h4>
             </div>
             <div class="py-2 ml-3">
                 <h6 class="font-weight-bold">Categories</h6>
                 <div><span class="fa fa-minus"></span></div>
-
-                <p>aaa</p>
-                {{ form }}
-
-                <!-- <form style="text-align: left;">
-                     <input type="checkbox" id="artisan"> 
-                     <input type="checkbox" id="breakfast"> 
-                     <input style="padding-left: 0;" type="checkbox" id="healthy">        
-                </form> -->
+                    <ul>
+                        {% for categ in view.get_category %}
+                            <li><input type="checkbox" style="margin-right: 5px;"><label>{{ categ }}</label>
+                        {% endfor %}
+                    </ul>                     
             </div>
             <div class="py-2 border-bottom ml-3">
                 <h6 class="font-weight-bold">Accompainments</h6>
                 <div><span class="fa fa-minus"></span></div>
                 <form>
-                    <div class="form-group"> <input type="checkbox" id="tea"> <label for="tea">Tea Cakes</label> </div>
-                    <div class="form-group"> <input type="checkbox" id="cookies"> <label for="cookies">Cookies</label> </div>
-                    <div class="form-group"> <input type="checkbox" id="pastries"> <label for="pastries">Pastries</label> </div>
-                    <div class="form-group"> <input type="checkbox" id="dough"> <label for="dough">Cookie Dough</label> </div>
-                    <div class="form-group"> <input type="checkbox" id="choco"> <label for="choco">Chocolates</label> </div>
+                    {% for type in view.get_type %}
+                        <li><input type="checkbox" style="margin-right: 5px;"><label>{{ type }}</label>
+                    {% endfor %}
                 </form>
             </div>
             <div class="py-2 ml-3">
                 <h6 class="font-weight-bold">Top Offers</h6>
                 <div id="orange"><span class="fa fa-minus"></span></div>
                 <form>
-                    <div class="form-group"> <input type="checkbox" id="25off"> <label for="25">25% off</label> </div>
-                    <div class="form-group"> <input type="checkbox" id="5off"> <label for="5off" id="off">5% off on artisan breads</label> </div>
+                    {% for size in view.get_size %}
+                        <li><input type="checkbox" style="margin-right: 5px;"><label>{{ size }}</label>
+                    {% endfor %}
                 </form>
             </div>
         </section>

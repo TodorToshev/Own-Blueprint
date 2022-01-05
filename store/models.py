@@ -7,11 +7,30 @@ from decimal import Decimal
 
 
 class Size(models.Model):
-    size = models.CharField(max_length=5)
+    size = models.CharField(max_length=10)
 
     def __str__(self):
         return self.size
 
+
+class Types(models.Model):
+    clothing_type = models.CharField(max_length=120)
+
+    class Meta:
+        verbose_name_plural = 'Types'
+
+    def __str__(self):
+        return self.clothing_type
+
+
+class Categories(models.Model):
+    category = models.CharField(max_length=80)
+
+    class Meta:
+        verbose_name_plural = 'Categories'
+
+    def __str__(self):
+        return self.category
 
 class Product(models.Model):
     name = models.CharField(max_length=150)
@@ -23,6 +42,8 @@ class Product(models.Model):
     date_added = models.DateTimeField(null=True, blank=True, auto_now_add=True)
     tags = TaggableManager()
     sizes = models.ManyToManyField(Size)
+    category = models.ForeignKey(Categories, related_name="product_category", on_delete=models.SET_NULL, null=True, blank=True)
+    product_type = models.ForeignKey(Types, related_name="product_type", on_delete=models.SET_NULL, null=True, blank=True)
 
     def __str__(self):
         return self.name

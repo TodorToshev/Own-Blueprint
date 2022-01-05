@@ -1,6 +1,6 @@
 from django.db.models import Count
 from django.shortcuts import get_object_or_404, render, redirect
-from .models import Product, ProductReview
+from .models import Product, ProductReview, Categories, Types, Size
 from .forms import ReviewForm, OrderForm
 from django.db.models import Avg
 from django.core.paginator import Paginator
@@ -12,7 +12,19 @@ from django.views.generic.list import ListView
 def main(request):
     return render(request, 'store/index.html')
 
-class ProductListView(ListView):
+
+class CategTypeAndSize:
+    def get_category(self):
+        return Categories.objects.all()
+
+    def get_type(self):
+        return Types.objects.all()
+
+    def get_size(self):
+        return Size.objects.all()
+
+
+class ProductListView(CategTypeAndSize, ListView):
     model = Product
     template_name = 'store/products.html'
     context_object_name = 'products'
@@ -37,7 +49,7 @@ def single_product(request, pk):
     print(product_tags_ids)
     similar_products = Product.objects.filter(tags__in=product_tags_ids).exclude(id=product.id)
     print(similar_products)
-    similar_products = similar_products.annotate(same_tags=Count('tags')).order_by('-same_tags',)[:4]
+    similar_products = similar_products.annotate(same_tags=Count('tags')).order_by('-same_tags',)
     print(similar_products)
 
 
