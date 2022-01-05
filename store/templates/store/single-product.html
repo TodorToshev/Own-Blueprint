@@ -47,14 +47,31 @@
                 <div class="right-content">
                     <h4>{{ product.name }}</h4>
                     <span class="price">${{ product.price }}</span>
-                    <ul class="stars">
-                        <li><i class="fa fa-star"></i></li>
-                        <li><i class="fa fa-star"></i></li>
-                        <li><i class="fa fa-star"></i></li>
-                        <li><i class="fa fa-star"></i></li>
-                        <li><i class="fa fa-star"></i></li>
-                        <p style='margin-left: 5px; display: inline'>Rating {{ product.rating }} | {{ product.comments }} Comments</p>
-                    </ul>
+                        
+                        <!-- prevents NoneType from entering the custom 'times' and 'rest' filters -->
+                            {% if avg_prod_rating %}    
+                                <ul class="stars">
+                                    {% for _ in avg_prod_rating|times %}
+                                        <li><i class="fa fa-star"></i></li>
+                                    {% endfor %}
+                                                
+                                    {% for _ in avg_prod_rating|rest %}
+                                        <li><i class="fa fa-star-o empty"></i></li>
+                                    {% endfor %}
+                                    <p style='margin-left: 5px; display: inline'>
+                                        Rating {{ avg_prod_rating|floatformat }} | 
+                            {% else %}
+                                <p style='margin-left: 5px; display: inline'>No Rating Yet |</p>
+                                </ul>
+                            {% endif %}
+                            <p style='margin-left: 5px; display: inline'>
+                            {% if reviews %}
+                                {{ reviews|length }} Comment{{ reviews|pluralize }} 
+                            {% else %} 
+                            No Comments Yet 
+                            {% endif %}
+                            </p>
+
                     <span>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod kon tempor incididunt ut labore.</span>
                     <div class="quote">
                         <i class="fa fa-quote-left"></i><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiuski smod.</p>
@@ -134,14 +151,17 @@
                         <div id="rating">
                             <div id="rating">
                                 <i style="font-size: 24px; font-style: normal; font-weight: 500;">{{ avg_prod_rating|floatformat }}</i>
-
-                                {% for _ in avg_prod_rating|times %}
-                                    <i style="font-size: 24px;" class="fa fa-star"></i>
-                                {% endfor %}
-                                
-                                {% for _ in avg_prod_rating|rest %}
-                                    <i style="font-size: 24px;" class="fa fa-star-o empty"></i>
-                                {% endfor %} 
+                                {% if avg_prod_rating %}
+                                    {% for _ in avg_prod_rating|times %}
+                                        <i style="font-size: 24px;" class="fa fa-star"></i>
+                                    {% endfor %}
+                                    
+                                    {% for _ in avg_prod_rating|rest %}
+                                        <i style="font-size: 24px;" class="fa fa-star-o empty"></i>
+                                    {% endfor %}
+                                {% else %}
+                                    <h6>No Ratings Yet.</h6>
+                                {% endif %} 
                                 <br>
                                 <br>
                                 <div>
@@ -192,30 +212,36 @@
                     <div class="col-md-6">
                         <div id="reviews">
                             <ul class="reviews">
-                                {% for review in reviews %}
-                                <li>
-                                    <div class="review-heading">
-                                        <h5 class="name">{{ review.name }}</h5>
-                                        <p class="date">{{ review.date_added }}</p>
-                                        <div class="review-rating">
-                                            <!-- uses custom template filters -->
-                                            {% for _ in review.rating|times %}
-                                                <i class="fa fa-star"></i>
-                                            {% endfor %}
-                                            
-                                            {% for _ in review.rating|rest %}
-                                                <i class="fa fa-star-o empty"></i>
-                                            {% endfor %}                                            
+                                {% if reviews %}
+                                    {% for review in reviews %}
+                                    <li>
+                                        <div class="review-heading">
+                                            <h5 class="name">{{ review.name }}</h5>
+                                            <p class="date">{{ review.date_added }}</p>
+                                            <div class="review-rating">
+                                                {% if review.rating %}
+                                                    <!-- uses custom template filters -->
+                                                    {% for _ in review.rating|times %}
+                                                        <i class="fa fa-star"></i>
+                                                    {% endfor %}
+                                                    
+                                                    {% for _ in review.rating|rest %}
+                                                        <i class="fa fa-star-o empty"></i>
+                                                    {% endfor %}
+                                                {% endif %}
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="review-body">
-                                        <p>
-                                           {{ review.comment }} 
-                                           {% lorem %}}
-                                        </p>
-                                    </div>
-                                </li>
-                                {% endfor %}
+                                        <div class="review-body">
+                                            <p>
+                                            {{ review.comment }} 
+                                            {% lorem %}}
+                                            </p>
+                                        </div>
+                                    </li>
+                                    {% endfor %}
+                                {% else %}
+                                    <h5 style="text-align:center">No Reviews Yet.</h5>
+                                {% endif %}
                             </ul>
 
                             <!-- <div class="pagination">
@@ -256,8 +282,6 @@
                                         <input type="checkbox" name="rating_val" value="1" id="1">
                                         <label for="1">☆</label>
                                         </div>
-
-                                    <!-- <input type="hidden"  name='product_id' value="{{ product.id }}"> -->
 
                                 <input type="submit" value="Submit" class="main-add-button" style="width: 100%;">
                             </form>
