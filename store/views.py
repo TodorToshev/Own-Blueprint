@@ -14,11 +14,7 @@ from django.core.exceptions import EmptyResultSet
 
 def main(request):
     categories = Categories.objects.all()
-    # print(categories)
     return render(request, 'store/index.html', {'categories': categories})
-
-
-
 
 
 class CategTypeAndSize:
@@ -43,28 +39,27 @@ class FilterListView(CategTypeAndSize, ListView):
     context_object_name = 'products'
     paginate_by = 9
 
-    '''returns Product objects to html by generating QS from the data 
-    in the GET parameters of the sidebar form in the store/products.html.'''
     def get_queryset(self):
-        try:
-            qs = Product.objects.filter(
-                Q(category__in=self.request.GET.getlist('category')) & 
-                Q(product_type__in=self.request.GET.getlist('type')) &
-                Q(sizes__in=self.request.GET.getlist('size'))   
-                )
-            return qs
-        except EmptyResultSet:
-            pass
-
-
-class CategoryListView(FilterListView, ListView):
-    '''urlpattern 'category/<str:category>' passes str of men/women/kids/accessories to view.
-    get_queryset() filters 'Category' objects by 'category' capitalized variable.
-    'category' gets passed in lowercase. The DB 'Category' models are capitalized.
-    Either call .capitalize() on the category variable or change DB models to lowercase.'''
-
-    def get_queryset(self):
-        return Product.objects.filter(category__category=(self.kwargs.get('category')).capitalize() )  
+        if self.kwargs.get('category'):
+            '''if the view is accessed from url 'category/<str:category>'. It passes 
+            str of men/women/kids/accessories to view. get_queryset() filters 'Category' objects 
+            by 'category' capitalized variable. 'category' gets passed in lowercase. The DB 'Category' 
+            models are capitalized. Either call .capitalize() on the category variable or change 
+            DB models to lowercase.'''
+            return Product.objects.filter(category__category=(self.kwargs.get('category')).capitalize())  
+        else:
+            '''if no 'category' is passed, the view is accessed from /filter url. 
+            The view returns Product objects to html by generating QS from the data 
+            in the GET parameters of the sidebar form in the store/products.html.'''
+            try:
+                qs = Product.objects.filter(
+                    Q(category__in=self.request.GET.getlist('category')) & 
+                    Q(product_type__in=self.request.GET.getlist('type')) &
+                    Q(sizes__in=self.request.GET.getlist('size'))   
+                    )
+                return qs
+            except EmptyResultSet:
+                pass
 
 
 class ProductListView(CategTypeAndSize, ListView):

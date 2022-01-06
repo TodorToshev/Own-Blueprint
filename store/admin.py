@@ -19,6 +19,8 @@ class ProductAdmin(admin.ModelAdmin):
     With inlines, the admin can allow editing of parent and child models on one page.
     '''
     inlines = [ProductImageAdmin]
+    list_display = ['name', 'price', 'date_added','rating', 'category', 'product_type']
+    list_filter = ['rating', 'tags', 'sizes', 'category', 'product_type']
  
     #probably not needed:
     # class Meta:

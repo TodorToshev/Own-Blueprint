@@ -59,9 +59,9 @@ https://templatemo.com/tm-571-hexashop
                         <!-- ***** Menu Start ***** -->
                         <ul class="nav">
                             <li class="scroll-to-section"><a href="{% url "store:store_index" %}" class="{% if request.path == '/store/' %}active{% endif %}">Home</a></li>
-                            <li class="scroll-to-section"><a href="#men" class="{% if 'men' in request.path and 'women' not in request.path %}active{% endif %}">Men's</a></li>
-                            <li class="scroll-to-section"><a href="#women" class="{% if 'women' in request.path %}active{% endif %}">Women's</a></li>
-                            <li class="scroll-to-section"><a href="#kids" class="{% if 'kids' in request.path %}active{% endif %}">Kid's</a></li>
+                            <li class="scroll-to-section"><a href="{% url "store:category" 'men' %}" class="{% if 'men' in request.path and 'women' not in request.path %}active{% endif %}">Men's</a></li>
+                            <li class="scroll-to-section"><a href="{% url "store:category" 'women' %}" class="{% if 'women' in request.path %}active{% endif %}">Women's</a></li>
+                            <li class="scroll-to-section"><a href="{% url "store:category" 'kids' %}" class="{% if 'kids' in request.path %}active{% endif %}">Kid's</a></li>
                             <li class="submenu">
                                 <a href="javascript:;" class="{% if 'product' in request.path %}active{% endif %}">Pages</a>
                                 <ul>
