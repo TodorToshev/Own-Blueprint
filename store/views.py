@@ -1,4 +1,6 @@
 from django.db.models import Count
+from django.db.models import Q
+from django.db.models.expressions import F
 from django.shortcuts import get_object_or_404, render, redirect
 from .models import Product, ProductReview, Categories, Types, Size
 from .forms import ReviewForm, OrderForm
@@ -6,6 +8,7 @@ from django.db.models import Avg
 from django.core.paginator import Paginator
 from django.http import JsonResponse
 from django.views.generic.list import ListView
+from django.core.exceptions import EmptyResultSet
 
 # Create your views here.
 
@@ -22,6 +25,23 @@ class CategTypeAndSize:
 
     def get_size(self):
         return Size.objects.all()
+
+    
+class FilterListView(CategTypeAndSize, ListView):
+    template_name = 'store/products.html'
+    context_object_name = 'products'
+    paginate_by = 9
+
+    def get_queryset(self):
+        try:
+            qs = Product.objects.filter(
+                Q(category__in=self.request.GET.getlist('category')) & 
+                Q(product_type__in=self.request.GET.getlist('type')) &
+                Q(sizes__in=self.request.GET.getlist('size'))   
+                )
+            return qs
+        except EmptyResultSet:
+            pass
 
 
 class ProductListView(CategTypeAndSize, ListView):

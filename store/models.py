@@ -33,6 +33,11 @@ class Categories(models.Model):
         return self.category
 
 class Product(models.Model):
+
+    #fixes "Pagination may yield inconsistent results with an unordered object_list..." warning.
+    class Meta:
+        ordering = ('id',)
+
     name = models.CharField(max_length=150)
     description = models.TextField()
     price = models.DecimalField(max_digits=5, decimal_places=2, validators=[
