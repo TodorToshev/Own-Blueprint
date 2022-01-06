@@ -2687,9 +2687,10 @@ a:hover {
 }
 
 .main-add-button {
+  font-weight: 400!important;
   margin-top: 30px;
   border-color: #2a2a2a;
-  color: #2a2a2a;
+  color: #2a2a2a; 
   width: auto;
   padding: 12px 25px;
   font-weight: 500;
@@ -2699,8 +2700,9 @@ a:hover {
 }
 
 .main-add-button:hover {
-  background-color: rgb(199, 199, 199);
-  transition: .5s
+  background-color: rgb(0, 0, 0);
+  color: #ffffff;
+  transition: .4s
 }
 
 input[type="radio"]{

@@ -58,12 +58,12 @@ https://templatemo.com/tm-571-hexashop
                         <!-- ***** Logo End ***** -->
                         <!-- ***** Menu Start ***** -->
                         <ul class="nav">
-                            <li class="scroll-to-section"><a href="#top" class="active">Home</a></li>
-                            <li class="scroll-to-section"><a href="#men">Men's</a></li>
-                            <li class="scroll-to-section"><a href="#women">Women's</a></li>
-                            <li class="scroll-to-section"><a href="#kids">Kid's</a></li>
+                            <li class="scroll-to-section"><a href="{% url "store:store_index" %}" class="{% if request.path == '/store/' %}active{% endif %}">Home</a></li>
+                            <li class="scroll-to-section"><a href="#men" class="{% if 'men' in request.path and 'women' not in request.path %}active{% endif %}">Men's</a></li>
+                            <li class="scroll-to-section"><a href="#women" class="{% if 'women' in request.path %}active{% endif %}">Women's</a></li>
+                            <li class="scroll-to-section"><a href="#kids" class="{% if 'kids' in request.path %}active{% endif %}">Kid's</a></li>
                             <li class="submenu">
-                                <a href="javascript:;">Pages</a>
+                                <a href="javascript:;" class="{% if 'product' in request.path %}active{% endif %}">Pages</a>
                                 <ul>
                                     <li><a href="{% url "store:store_products" %}">Products</a></li>
                                 </ul>
