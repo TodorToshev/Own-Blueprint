@@ -13,7 +13,12 @@ from django.core.exceptions import EmptyResultSet
 # Create your views here.
 
 def main(request):
-    return render(request, 'store/index.html')
+    categories = Categories.objects.all()
+    # print(categories)
+    return render(request, 'store/index.html', {'categories': categories})
+
+
+
 
 
 class CategTypeAndSize:
@@ -27,6 +32,7 @@ class CategTypeAndSize:
 
     def get_size(self):
         return Size.objects.all()
+
 
     
 class FilterListView(CategTypeAndSize, ListView):
@@ -49,6 +55,16 @@ class FilterListView(CategTypeAndSize, ListView):
             return qs
         except EmptyResultSet:
             pass
+
+
+class CategoryListView(FilterListView, ListView):
+    '''urlpattern 'category/<str:category>' passes str of men/women/kids/accessories to view.
+    get_queryset() filters 'Category' objects by 'category' capitalized variable.
+    'category' gets passed in lowercase. The DB 'Category' models are capitalized.
+    Either call .capitalize() on the category variable or change DB models to lowercase.'''
+
+    def get_queryset(self):
+        return Product.objects.filter(category__category=(self.kwargs.get('category')).capitalize() )  
 
 
 class ProductListView(CategTypeAndSize, ListView):
