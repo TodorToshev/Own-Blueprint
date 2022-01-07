@@ -104,6 +104,8 @@
                             <h4>Total: $210.00</h4>
                                 <input class="main-add-button" type="submit" value="Add To Cart">
                         </div>
+                        <!-- can be done from OrderForm, but this is simpler. Provides product id to cart_view() -->
+                        <input type="hidden" name="product" value="{{ product.id}}">
                     </form>
 
                     {% if order_form.errors %}

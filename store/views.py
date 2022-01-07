@@ -2,7 +2,7 @@ from django.db.models import Count
 from django.db.models import Q
 from django.db.models.expressions import F
 from django.shortcuts import get_object_or_404, render, redirect
-from .models import Product, ProductReview, Categories, Types, Size
+from .models import Product, ProductReview, Categories, Types, Size, CartItem
 from .forms import ReviewForm, OrderForm
 from django.db.models import Avg
 from django.core.paginator import Paginator
@@ -73,6 +73,10 @@ class ProductListView(CategTypeAndSize, ListView):
 
 
 def single_product(request, pk):
+
+    #add cart to session w/ product id, size and quantity
+
+
     product = get_object_or_404(Product, pk=pk)
 
     #returns {'rating__avg': 3.6666666666666665} f. eg.
@@ -95,9 +99,9 @@ def single_product(request, pk):
 
     reviews = product.product_reviews.all()
 
-    order_form = OrderForm(product)
     
     if request.method == 'POST':
+        #Reviews:
         review_form = ReviewForm(request.POST)
         if review_form.is_valid():
             # directly create product instance from data from 
@@ -109,6 +113,11 @@ def single_product(request, pk):
 
             #redirect to the same page to avoid form resubmission on reload.
             return redirect(product.get_absolute_url())
+
+    #Add to cart (uses GET):
+    order_form = OrderForm(product)
+    
+
             
     # paginator = Paginator(reviews, 1)
     # page_number = request.GET.get('page')
@@ -123,8 +132,28 @@ def single_product(request, pk):
     return render(request, 'store/single-product.html', context)
 
 
-def order_view(request):
-    #request.GET: QueryDict: {'quantity': ['3'], 'size': ['M']}
-    return render(request, 'store/index.html')
-    #TODO add if form is valid submit or sth idk. Save to db Order mdel?
+def cart_view(request):
+    product_id = int(request.GET.get('product'))
+    size_id = int(request.GET.get('size'))
+    quantity = int(request.GET.get('quantity'))
+
+    print("Cart before append:  ", request.session['cart'])
+    # del request.session['cart']
+    cart = request.session.get('cart')
+    if not cart:
+        cart = []
+        
+    new_cart_item = CartItem.objects.create(product_id=Product.objects.get(id=product_id), 
+                                            product_size_id=Size.objects.get(id=size_id), 
+                                            quantity=quantity)
+
+    print("New Cart Item",new_cart_item)
+
+    if new_cart_item.id not in cart:
+        cart.append(new_cart_item.id)
+    # print(request.session.items())
+    request.session['cart'] = cart
+    print("Cart after append    ", request.session['cart'])
+    
+    return redirect('store:store_index')
 
