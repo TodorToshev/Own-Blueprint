@@ -132,7 +132,7 @@ def single_product(request, pk):
     return render(request, 'store/single-product.html', context)
 
 
-def cart_view(request):
+def order_process_view(request):
     product_id = int(request.GET.get('product'))
     size_id = int(request.GET.get('size'))
     quantity = int(request.GET.get('quantity'))
@@ -155,5 +155,25 @@ def cart_view(request):
     request.session['cart'] = cart
     print("Cart after append    ", request.session['cart'])
     
-    return redirect('store:store_index')
+    return redirect('store:cart')
 
+
+def cart_view(request):
+    cart = request.session['cart']
+    context = {"cart_objects": []}
+
+
+    for item_id in cart:
+        order_item = CartItem.objects.get(id=item_id)
+        context["cart_objects"].append(order_item)
+
+    print(context["cart_objects"]) #35
+    #prod id = cart_item_objects[0].product_id  
+    #prod = Product.objects.get(id=prod_id)     
+
+    # context['order_items'] = cart_item_objects
+    co = CartItem.objects.get(id=35)
+    print(co)
+    # p = CartItem.objects.get(product_id__id=cart_item_objects[0].id)
+    # print(p)
+    return render(request, 'store/cart.html', context)
