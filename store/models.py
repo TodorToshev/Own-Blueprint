@@ -79,6 +79,6 @@ class ProductReview(models.Model):
 
 class CartItem(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
-    product_size_id = models.ForeignKey(Size, on_delete=models.CASCADE)
+    product_size = models.ForeignKey(Size, on_delete=models.CASCADE)
     quantity = models.IntegerField(validators=[MinValueValidator(1)])
     ordered = models.BooleanField(default=False)

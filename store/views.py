@@ -140,21 +140,46 @@ def order_process_view(request):
     print("Cart before append:  ", request.session['cart'])
     # del request.session['cart']
     cart = request.session.get('cart')
-    if not cart:
+    # if not cart:
+    #     cart = []
+    print("sdfgh")
+    if cart:
+        for cart_id in cart:
+            cart_obj = CartItem.objects.get(id=cart_id)
+            
+            if cart_obj.product.id == product_id:
+                if cart_obj.product_size.id == size_id:
+                    cart_obj.quantity += quantity
+                    cart_obj.save()
+                    break
+
+                #doubling code, TODO fix later!!!
+                # else:
+                #     new_cart_item = CartItem.objects.create(product=Product.objects.get(id=product_id), 
+                #                             product_size=Size.objects.get(id=size_id), 
+                #                             quantity=quantity)
+                #     if new_cart_item.id not in cart:
+                #         cart.append(new_cart_item.id)
+                #         break
+        else:
+            new_cart_item = CartItem.objects.create(product=Product.objects.get(id=product_id), 
+                                        product_size=Size.objects.get(id=size_id), 
+                                        quantity=quantity)
+            # if new_cart_item.id not in cart:              #if sth breaks, uncomment and indent next line.
+            cart.append(new_cart_item.id)
+                # break
+                    
+    else: 
         cart = []
-        
-    new_cart_item = CartItem.objects.create(product_id=Product.objects.get(id=product_id), 
-                                            product_size_id=Size.objects.get(id=size_id), 
+        new_cart_item = CartItem.objects.create(product=Product.objects.get(id=product_id), 
+                                            product_size=Size.objects.get(id=size_id), 
                                             quantity=quantity)
+        if new_cart_item.id not in cart:
+            cart.append(new_cart_item.id)
 
-    print("New Cart Item",new_cart_item)
 
-    if new_cart_item.id not in cart:
-        cart.append(new_cart_item.id)
-    # print(request.session.items())
+    #should be obsolete since i no longer do a render but redirect, form data does not get submitted again.
     request.session['cart'] = cart
-    print("Cart after append    ", request.session['cart'])
-    
     return redirect('store:cart')
 
 
@@ -167,13 +192,13 @@ def cart_view(request):
         order_item = CartItem.objects.get(id=item_id)
         context["cart_objects"].append(order_item)
 
-    print(context["cart_objects"]) #35
-    #prod id = cart_item_objects[0].product_id  
     #prod = Product.objects.get(id=prod_id)     
 
     # context['order_items'] = cart_item_objects
     co = CartItem.objects.get(id=35)
     print(co)
+    print(co.id)
     # p = CartItem.objects.get(product_id__id=cart_item_objects[0].id)
     # print(p)
     return render(request, 'store/cart.html', context)
+

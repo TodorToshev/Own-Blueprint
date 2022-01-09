@@ -3,6 +3,7 @@
 *.jpg
 *.jpeg
 *.png
+launch.json
 
 !cta-bg.jpg
 !heading-bg.jpg
