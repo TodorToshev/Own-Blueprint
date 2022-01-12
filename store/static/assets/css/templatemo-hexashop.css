@@ -2558,8 +2558,12 @@ a {
 }
 
 .close {
-    margin-left: auto;
-    font-size: 0.7rem
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: normal;
+  border: none; 
+  background: transparent; 
+  color: grey
 }
 
 /* img {

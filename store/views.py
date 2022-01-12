@@ -73,10 +73,6 @@ class ProductListView(CategTypeAndSize, ListView):
 
 
 def single_product(request, pk):
-
-    #add cart to session w/ product id, size and quantity
-
-
     product = get_object_or_404(Product, pk=pk)
 
     #returns {'rating__avg': 3.6666666666666665} f. eg.
@@ -142,7 +138,6 @@ def order_process_view(request):
     cart = request.session.get('cart')
     if not cart:
         cart = []
-    # if cart:
     for cart_id in cart:
         cart_obj = CartItem.objects.get(id=cart_id)
         
@@ -155,18 +150,7 @@ def order_process_view(request):
         new_cart_item = CartItem.objects.create(product=Product.objects.get(id=product_id), 
                                     product_size=Size.objects.get(id=size_id), 
                                     quantity=quantity)
-        # if new_cart_item.id not in cart:              #if sth breaks, uncomment and indent next line.
         cart.append(new_cart_item.id)
-            # break
-                    
-    # else: 
-    #     cart = []
-    #     new_cart_item = CartItem.objects.create(product=Product.objects.get(id=product_id), 
-    #                                         product_size=Size.objects.get(id=size_id), 
-    #                                         quantity=quantity)
-    #     # if new_cart_item.id not in cart:              #if sth breaks, uncomment and indent next line.
-    #     cart.append(new_cart_item.id)
-            # break
 
     request.session['cart'] = cart
     return redirect('store:cart')
@@ -174,20 +158,29 @@ def order_process_view(request):
 
 def cart_view(request):
     cart = request.session['cart']
-    context = {"cart_objects": []}
-
+    context = {"cart_objects": [],}
 
     for item_id in cart:
         order_item = CartItem.objects.get(id=item_id)
         context["cart_objects"].append(order_item)
 
-    #prod = Product.objects.get(id=prod_id)     
+    total_price = sum([item.product.price * item.quantity for item in context["cart_objects"]])
 
-    # context['order_items'] = cart_item_objects
-    co = CartItem.objects.get(id=35)
-    print(co)
-    print(co.id)
-    # p = CartItem.objects.get(product_id__id=cart_item_objects[0].id)
-    # print(p)
+    context['total_price'] = total_price
+        
     return render(request, 'store/cart.html', context)
 
+
+
+def cart_remove(request, id):
+    cart = request.session.get('cart')
+    cart.remove(id)
+    request.session['cart'] = cart
+    return redirect('store:cart')
+
+
+def cart_update(request, id):
+    cart_item = CartItem.objects.get(id=id)
+    cart_item.quantity = request.GET.get('quantity')
+    cart_item.save()
+    return redirect('store:cart')
