@@ -1,5 +1,5 @@
 from django import forms
-from .models import ProductReview
+from .models import Order, ProductReview
 
 PRODUCT_QUANTITY_CHOICES = [(i, str(i)) for i in range(1, 21)]
 
@@ -38,3 +38,9 @@ class ReviewForm(forms.ModelForm):
                 'comment': forms.widgets.Textarea(attrs={
                     "placeholder": 'Review', "rows": "5"}),
                }
+
+
+class OrderAddressForm(forms.ModelForm):
+    class Meta:
+        model = Order
+        fields = ['first_name', 'last_name', 'country', 'city', 'address', 'postal_code']

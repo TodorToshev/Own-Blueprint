@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Product, Size, ProductImage, ProductReview, Categories, Types
+from .models import Product, Size, ProductImage, ProductReview, Categories, Types, Order
 
 # Register your models here.
 
@@ -7,6 +7,7 @@ admin.site.register(Size)
 admin.site.register(ProductReview)
 admin.site.register(Categories)
 admin.site.register(Types)
+admin.site.register(Order)
 
 
 class ProductImageAdmin(admin.StackedInline):

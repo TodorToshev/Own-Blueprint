@@ -77,8 +77,26 @@ class ProductReview(models.Model):
         return f"Comment by {self.name}"
 
 
+class Order(models.Model):
+    first_name = models.CharField(max_length=50)
+    last_name = models.CharField(max_length=50)
+    country = models.CharField(max_length=750)
+    city = models.CharField(max_length=100)
+    address = models.CharField(max_length=250)
+    postal_code = models.CharField(max_length=20)
+    paid = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f"Order {self.id} by {self.first_name} {self.last_name}."
+
+
+
 class CartItem(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     product_size = models.ForeignKey(Size, on_delete=models.CASCADE)
     quantity = models.IntegerField(validators=[MinValueValidator(1)])
-    ordered = models.BooleanField(default=False)
+    #at time of creation of new cart item, the Order obj it belongs to has not been created yet, thus null=True
+    items = models.ForeignKey(Order, on_delete=models.CASCADE, null=True, blank=True)
+
+
+

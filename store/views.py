@@ -2,8 +2,8 @@ from django.db.models import Count
 from django.db.models import Q
 from django.db.models.expressions import F
 from django.shortcuts import get_object_or_404, render, redirect
-from .models import Product, ProductReview, Categories, Types, Size, CartItem
-from .forms import ReviewForm, OrderForm
+from .models import Order, Product, ProductReview, Categories, Types, Size, CartItem
+from .forms import OrderAddressForm, ReviewForm, OrderForm
 from django.db.models import Avg
 from django.core.paginator import Paginator
 from django.http import JsonResponse
@@ -184,3 +184,32 @@ def cart_update(request, id):
     cart_item.quantity = request.GET.get('quantity')
     cart_item.save()
     return redirect('store:cart')
+
+
+def order_address(request):
+    form = OrderAddressForm()
+    if request.method == 'POST':
+        form = OrderAddressForm(request.POST)
+        if form.is_valid():
+            print(list(request.POST.items()))
+            # new_order = Order
+            print(request.session['cart'])
+
+            cart_items = []
+            for item_id in request.session['cart']:
+                order_item = CartItem.objects.get(id=item_id)
+                cart_items.append(order_item)
+            print(cart_items)
+
+        new_order = Order(cartitem=cart_items[0], 
+                                        first_name=request.POST['first_name'],
+                                        last_name = request.POST['last_name'],
+                                        country = request.POST['country'],
+                                        city = request.POST['city'],
+                                        address = request.POST['address'],
+                                        postal_code = request.POST['postal_code'])
+        new_order.save()
+        for cart_item in cart_items:
+            new_order.cartitem_set.add(cart_item)
+
+    return render(request, 'store/order_address.html', {'form': form})
