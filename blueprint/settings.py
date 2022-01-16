@@ -146,3 +146,18 @@ LOGOUT_REDIRECT_URL = '/'
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
+
+# Braintree settings
+BRAINTREE_MERCHANT_ID = os.environ.get('BLUEPRINT_BT_MERCHANT')
+BRAINTREE_PUBLIC_KEY = os.environ.get('BLUEPRINT_BT_PUBLIC')
+BRAINTREE_PRIVATE_KEY = os.environ.get('BLUEPRINT_BT_PRIVATE')
+
+import braintree
+BRAINTREE_CONF = braintree.Configuration(
+    braintree.Environment.Sandbox,
+    BRAINTREE_MERCHANT_ID,
+    BRAINTREE_PUBLIC_KEY,
+    BRAINTREE_PRIVATE_KEY
+    )
+
+

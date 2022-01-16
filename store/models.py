@@ -86,8 +86,13 @@ class Order(models.Model):
     postal_code = models.CharField(max_length=20)
     paid = models.BooleanField(default=False)
 
+    braintree_id = models.CharField(max_length=150, blank=True)
+
     def __str__(self):
         return f"Order {self.id} by {self.first_name} {self.last_name}."
+
+    def get_total_cost(self):
+        return sum(item.get_cost() for item in self.cartitem_set.all())
 
 
 
@@ -97,6 +102,11 @@ class CartItem(models.Model):
     quantity = models.IntegerField(validators=[MinValueValidator(1)])
     #at time of creation of new cart item, the Order obj it belongs to has not been created yet, thus null=True
     items = models.ForeignKey(Order, on_delete=models.CASCADE, null=True, blank=True)
+    total_price = models.DecimalField(null=True, max_digits=5, decimal_places=2)
+
+    def get_cost(self):
+        return self.product.price * self.quantity
+
 
 
 

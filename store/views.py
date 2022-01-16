@@ -9,7 +9,10 @@ from django.core.paginator import Paginator
 from django.http import JsonResponse
 from django.views.generic.list import ListView
 from django.core.exceptions import EmptyResultSet
+import braintree
+from django.conf import settings
 
+gateway = braintree.BraintreeGateway(settings.BRAINTREE_CONF)
 # Create your views here.
 
 def main(request):
@@ -157,14 +160,18 @@ def order_process_view(request):
 
 
 def cart_view(request):
-    cart = request.session['cart']
+    try:
+        cart = request.session['cart']
+    except Exception as e:
+        return render(request, 'store/cart.html')
+
     context = {"cart_objects": [],}
+    total_price = 0
 
     for item_id in cart:
         order_item = CartItem.objects.get(id=item_id)
+        total_price += order_item.get_cost()
         context["cart_objects"].append(order_item)
-
-    total_price = sum([item.product.price * item.quantity for item in context["cart_objects"]])
 
     context['total_price'] = total_price
         
@@ -187,19 +194,17 @@ def cart_update(request, id):
 
 
 def order_address(request):
+    if not request.session['cart']:
+        return render(request, 'store/index.html')
     form = OrderAddressForm()
     if request.method == 'POST':
         form = OrderAddressForm(request.POST)
         if form.is_valid():
-            print(list(request.POST.items()))
-            # new_order = Order
-            print(request.session['cart'])
 
             cart_items = []
             for item_id in request.session['cart']:
                 order_item = CartItem.objects.get(id=item_id)
                 cart_items.append(order_item)
-            print(cart_items)
 
         new_order = Order(cartitem=cart_items[0], 
                                         first_name=request.POST['first_name'],
@@ -209,7 +214,64 @@ def order_address(request):
                                         address = request.POST['address'],
                                         postal_code = request.POST['postal_code'])
         new_order.save()
+       
+        
+
         for cart_item in cart_items:
             new_order.cartitem_set.add(cart_item)
 
+        request.session['order_id'] = new_order.id
+        client_token = gateway.client_token.generate()
+        return render(request, 'store/process.html',{"client_token":client_token})
+
     return render(request, 'store/order_address.html', {'form': form})
+
+
+
+
+def payment_process(request):
+    order_id = request.session.get('order_id')
+    print(request.session.get('order_id'))
+    order = get_object_or_404(Order, id=order_id)
+    total_cost = order.get_total_cost()
+
+    if request.method == 'POST':
+        # retrieve nonce
+        nonce = request.POST.get('payment_method_nonce', None)
+        # create and submit transaction
+        result = gateway.transaction.sale({
+            'amount': f'{total_cost:.2f}','payment_method_nonce': nonce, 
+            'options': {'submit_for_settlement': True}})
+
+        if result.is_success:
+            # mark the order as paid
+            order.paid = True
+            # store the unique transaction id
+            order.braintree_id = result.transaction.id
+            order.save()
+            del request.session['cart']
+            return redirect('store:done')
+        elif result.transaction:
+            print("Error processing transaction:")
+            print("  code: " + result.transaction.processor_response_code)
+            print("  text: " + result.transaction.processor_response_text)
+            del request.session['cart']
+            return redirect('store:done')
+        else:
+            for error in result.errors.deep_errors:
+                print("attribute: " + error.attribute)
+                print("  code: " + error.code)
+                print("  message: " + error.message)
+            return redirect('store:canceled')
+
+    else:
+        # generate token
+        client_token = gateway.client_token.generate()
+        return render(request, 'store/process.html', {'order': order, 'client_token': client_token})
+
+
+def payment_done(request):
+ return render(request, 'store/done.html')
+def payment_canceled(request):
+ return render(request, 'store/canceled.html')
+
