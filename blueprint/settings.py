@@ -160,4 +160,3 @@ BRAINTREE_CONF = braintree.Configuration(
     BRAINTREE_PRIVATE_KEY
     )
 
-

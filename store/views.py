@@ -15,9 +15,13 @@ from django.conf import settings
 gateway = braintree.BraintreeGateway(settings.BRAINTREE_CONF)
 # Create your views here.
 
+
 def main(request):
     categories = Categories.objects.all()
-    return render(request, 'store/index.html', {'categories': categories})
+    mens = Product.objects.filter(category=1).order_by('-date_added')[:7]
+    womens = Product.objects.filter(category=2).order_by('-date_added')[:7]
+    kids = Product.objects.filter(category=3).order_by('-date_added')[:7]
+    return render(request, 'store/index.html', {'categories': categories, "mens": mens, "kids": kids, "womens": womens})
 
 
 class CategTypeAndSize:
@@ -271,7 +275,9 @@ def payment_process(request):
 
 
 def payment_done(request):
- return render(request, 'store/done.html')
+    return render(request, 'store/done.html')
+
+
 def payment_canceled(request):
- return render(request, 'store/canceled.html')
+    return render(request, 'store/canceled.html')
 

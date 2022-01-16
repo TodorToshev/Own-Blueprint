@@ -2,6 +2,7 @@ from django.db import models
 from django.core.validators import MaxValueValidator, MinValueValidator
 from taggit.managers import TaggableManager
 from decimal import Decimal
+from django.db.models import Avg
 
 # Create your models here.
 
@@ -55,6 +56,9 @@ class Product(models.Model):
 
     def get_absolute_url(self):
         return f"/store/product/{self.id}"
+
+    def get_rating(self):
+        return self.product_reviews.all().aggregate(Avg('rating'))['rating__avg']
 
 
 class ProductImage(models.Model):

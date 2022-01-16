@@ -143,7 +143,7 @@ class PostDeleteView(DeleteView):
     
 
 def basic_search(request):
-    # if request.method == 'POST':
+    #TODO: when working on server that supports PSQL, change to SearchVector    
     term = request.GET['term']
     results = BlogPost.objects.filter(title__icontains=term) | \
         BlogPost.objects.filter(content__icontains=term)

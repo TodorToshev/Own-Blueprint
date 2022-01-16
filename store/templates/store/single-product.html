@@ -4,8 +4,8 @@
 {% load filters %}
 
 <!-- already in base.html, but carousel doesn't work w/o the following 2 lines. -->
-{% load static %}
-<script src="{% static "assets/js/jquery-2.1.0.min.js" %}"></script>
+<!-- {% load static %} -->
+<!-- <script src="{% static "assets/js/jquery-2.1.0.min.js" %}"></script> -->
 
     <!-- ***** Main Banner Area Start ***** -->
     <div class="page-heading" id="top">
@@ -311,7 +311,7 @@
         <div class="row">
             <div class="owl-carousel owl-theme">
                 {% for product in similar_products %}
-                    <div class="item">
+                    <div class="item" style="cursor: pointer;"  onclick=window.location="{% url "store:product" product.id %}">
                         <div class="thumb">
                             <img src="{{ product.product_images.first.image.url }}" alt="">
                         </div>
@@ -320,11 +320,16 @@
                             <span>{{ product.price }}</span>
                             <span class="inline-stars">
                                 <ul class="stars">
-                                    <li><i class="fa fa-star"></i></li>
-                                    <li><i class="fa fa-star"></i></li>
-                                    <li><i class="fa fa-star"></i></li>
-                                    <li><i class="fa fa-star"></i></li>
-                                    <li><i class="fa fa-star"></i></li>
+                                    
+                                {% if product.rating %}                                   
+                                    {% for _ in product.rating|times %}
+                                                <i class="fa fa-star"></i>
+                                    {% endfor %}
+                                    
+                                    {% for _ in product.rating|rest %}
+                                        <i class="fa fa-star-o empty"></i>
+                                    {% endfor %}
+                                {% endif %}
                                 </ul>
                         </span>
                         </div>
