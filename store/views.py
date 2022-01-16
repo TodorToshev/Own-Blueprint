@@ -1,8 +1,9 @@
+from decimal import Decimal
 from django.db.models import Count
 from django.db.models import Q
 from django.db.models.expressions import F
 from django.shortcuts import get_object_or_404, render, redirect
-from .models import Order, Product, ProductReview, Categories, Types, Size, CartItem
+from .models import Order, Product, ProductReview, Categories, Types, Size, CartItem, Coupon
 from .forms import OrderAddressForm, ReviewForm, OrderForm
 from django.db.models import Avg
 from django.core.paginator import Paginator
@@ -120,8 +121,6 @@ def single_product(request, pk):
     #Add to cart (uses GET):
     order_form = OrderForm(product)
     
-
-            
     # paginator = Paginator(reviews, 1)
     # page_number = request.GET.get('page')
     # page_obj = paginator.get_page(page_number)
@@ -177,6 +176,16 @@ def cart_view(request):
         total_price += order_item.get_cost()
         context["cart_objects"].append(order_item)
 
+    code = request.GET.get('code')
+    if code is not None:
+        coupon = Coupon.objects.get(code=code)
+        # necessary to do it this way because of TypeError: 
+        # unsupported operand type(s) for *: 'decimal.Decimal' and 'float'. 
+        discount = round(total_price*round(Decimal(coupon.discount/100), 2),2)
+        total_price -= discount
+        context['coupon'] = coupon
+        request.session['coupon'] = coupon.id
+
     context['total_price'] = total_price
         
     return render(request, 'store/cart.html', context)
@@ -217,6 +226,8 @@ def order_address(request):
                                         city = request.POST['city'],
                                         address = request.POST['address'],
                                         postal_code = request.POST['postal_code'])
+        if request.session['coupon']:
+            new_order.coupon = Coupon.objects.get(id=request.session['coupon'])
         new_order.save()
        
         
@@ -226,9 +237,9 @@ def order_address(request):
 
         request.session['order_id'] = new_order.id
         client_token = gateway.client_token.generate()
-        return render(request, 'store/process.html',{"client_token":client_token})
+        return render(request, 'store/process.html',{"client_token":client_token, "order": new_order})
 
-    return render(request, 'store/order_address.html', {'form': form})
+    return render(request, 'store/order_address.html', {'form': form,})
 
 
 

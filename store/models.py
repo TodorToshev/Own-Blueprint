@@ -81,6 +81,14 @@ class ProductReview(models.Model):
         return f"Comment by {self.name}"
 
 
+class Coupon(models.Model):
+    code = models.CharField(max_length=10)
+    discount = models.IntegerField()
+
+    def __str__(self):
+        return f"{self.code} with {self.discount}% discount!"
+
+
 class Order(models.Model):
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
@@ -92,11 +100,18 @@ class Order(models.Model):
 
     braintree_id = models.CharField(max_length=150, blank=True)
 
+    coupon = models.ForeignKey(Coupon, on_delete=models.SET_NULL, null=True, blank=True)
+
     def __str__(self):
         return f"Order {self.id} by {self.first_name} {self.last_name}."
 
     def get_total_cost(self):
-        return sum(item.get_cost() for item in self.cartitem_set.all())
+        total_cost = sum(item.get_cost() for item in self.cartitem_set.all())
+        if self.coupon:
+            total_cost -= Decimal(total_cost * self.coupon.discount/100)
+            return round(total_cost, 2)
+        else:
+            return total_cost
 
 
 

@@ -23,6 +23,9 @@
           </div>
         <input type="hidden" id="nonce" name="payment_method_nonce" value="">
         {% csrf_token %}
+        
+        <p>Total: &euro; {{order.get_total_cost}}</p>
+        
         <input type="submit" class="btn btn-primary" value="Pay"></div>
     </div>
       </form>
