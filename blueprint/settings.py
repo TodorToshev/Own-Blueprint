@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'ckeditor',
     'taggit',
     'store',
+    'rest_framework',
 
     
     'django.contrib.admin',
