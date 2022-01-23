@@ -184,7 +184,7 @@ def cart_view(request):
         discount = round(total_price*round(Decimal(coupon.discount/100), 2),2)
         total_price -= discount
         context['coupon'] = coupon
-        request.session['coupon'] = coupon.id
+        request.session['coupon'] = coupon.code
 
     context['total_price'] = total_price
         
@@ -227,7 +227,7 @@ def order_address(request):
                                         address = request.POST['address'],
                                         postal_code = request.POST['postal_code'])
         if request.session['coupon']:
-            new_order.coupon = Coupon.objects.get(id=request.session['coupon'])
+            new_order.coupon = Coupon.objects.get(code=request.session['coupon'])
         new_order.save()
        
         
