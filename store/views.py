@@ -226,8 +226,11 @@ def order_address(request):
                                         city = request.POST['city'],
                                         address = request.POST['address'],
                                         postal_code = request.POST['postal_code'])
-        if request.session['coupon']:
+        try:
+        # if request.session['coupon']:
             new_order.coupon = Coupon.objects.get(code=request.session['coupon'])
+        except KeyError:
+            pass
         new_order.save()
        
         
@@ -265,12 +268,20 @@ def payment_process(request):
             order.braintree_id = result.transaction.id
             order.save()
             del request.session['cart']
+            try:
+                del request.session['coupon']
+            except KeyError:
+                pass
             return redirect('store:done')
         elif result.transaction:
             print("Error processing transaction:")
             print("  code: " + result.transaction.processor_response_code)
             print("  text: " + result.transaction.processor_response_text)
             del request.session['cart']
+            try:
+                del request.session['coupon']
+            except KeyError:
+                pass
             return redirect('store:done')
         else:
             for error in result.errors.deep_errors:
