@@ -12,6 +12,7 @@ urlpatterns = [
     path('blog/', include('blog.urls', namespace='blog')),
     path('accounts/', include('accounts.urls', namespace='accounts')),
     path('store/', include('store.urls', namespace='store')),
+    path('api/', include('api.urls')),
 ]
 
 if settings.DEBUG:
