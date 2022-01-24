@@ -8,6 +8,11 @@ class AuthorSerializer(serializers.ModelSerializer):
         fields = ('id', 'username')
         model = User
 
+class CommentRelatedPostSerializer(serializers.ModelSerializer):
+    class Meta:
+        fields = ('id', 'title')
+        model = BlogPost
+
 
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
@@ -51,6 +56,9 @@ class PostSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class CommentSerializer(serializers.HyperlinkedModelSerializer):
+    author = serializers.PrimaryKeyRelatedField(read_only=True,)
+    post = serializers.PrimaryKeyRelatedField(read_only=True,)
+
     class Meta:
         model = PostComment
         fields = [
@@ -62,3 +70,12 @@ class CommentSerializer(serializers.HyperlinkedModelSerializer):
             'content',
             'date_added',
         ]
+
+    def to_representation(self, instance):
+        representation = super().to_representation(instance)
+        representation["author"] = AuthorSerializer(instance.author).data
+        
+        # references CommentRelatedPostSerializer to display only two 
+        # fields instead of the main post serializer.
+        representation["post"] = CommentRelatedPostSerializer(instance.post).data
+        return representation
