@@ -3,7 +3,7 @@ from rest_framework import viewsets
 from rest_framework.decorators import api_view
 from rest_framework import permissions
 from rest_framework import generics
-from .serializers import PostSerializer, CommentSerializer
+from .serializers import PostCreateSerializer, PostSerializer, CommentSerializer
 
 class PostListView(generics.ListAPIView):
     queryset = BlogPost.objects.all().order_by('-created')
@@ -16,3 +16,7 @@ class CommentListView(generics.ListAPIView):
 class CommentCreateView(generics.CreateAPIView):
     queryset = PostComment.objects.all().order_by('-date_added')
     serializer_class = CommentSerializer
+
+class PostCreateView(generics.CreateAPIView):
+    queryset = BlogPost.objects.all().order_by('-created')
+    serializer_class = PostCreateSerializer

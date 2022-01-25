@@ -24,7 +24,7 @@ class PostSerializer(serializers.HyperlinkedModelSerializer):
     author = serializers.PrimaryKeyRelatedField(read_only=True,)
 
     # same.
-    category = serializers.PrimaryKeyRelatedField(read_only=True,)
+    category = serializers.PrimaryKeyRelatedField(queryset=Category.objects.all())
     tags = serializers.SlugRelatedField(many=True, slug_field='name', read_only=True)
 
     class Meta:
@@ -53,6 +53,21 @@ class PostSerializer(serializers.HyperlinkedModelSerializer):
         representation["author"] = AuthorSerializer(instance.author).data
         representation["category"] = CategorySerializer(instance.category).data
         return representation
+
+
+class PostCreateSerializer(PostSerializer):
+    ''' Inherits parent in order to not allow 
+        adding post views at creation time.'''
+    class Meta(PostSerializer.Meta):
+        fields = [
+            'pk',
+            'title',
+            'title_image',
+            'content',
+            'author',
+            'tags',
+            'category',
+        ]
 
 
 class CommentSerializer(serializers.ModelSerializer):
