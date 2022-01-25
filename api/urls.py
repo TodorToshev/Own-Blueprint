@@ -12,7 +12,8 @@ router = routers.DefaultRouter()
 urlpatterns = [
     path('', include(router.urls)),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
-    path('posts/', views.PostList.as_view()),
-    path('comments/', views.CommentList.as_view()),
+    path('posts/', views.PostListView.as_view()),
+    path('comments/', views.CommentListView.as_view()),
+    path('comment-create/', views.CommentCreateView.as_view()),
 
 ]

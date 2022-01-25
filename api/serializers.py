@@ -55,9 +55,9 @@ class PostSerializer(serializers.HyperlinkedModelSerializer):
         return representation
 
 
-class CommentSerializer(serializers.HyperlinkedModelSerializer):
+class CommentSerializer(serializers.ModelSerializer):
     author = serializers.PrimaryKeyRelatedField(read_only=True,)
-    post = serializers.PrimaryKeyRelatedField(read_only=True,)
+    post = serializers.PrimaryKeyRelatedField(queryset=BlogPost.objects.all())
 
     class Meta:
         model = PostComment
@@ -79,3 +79,4 @@ class CommentSerializer(serializers.HyperlinkedModelSerializer):
         # fields instead of the main post serializer.
         representation["post"] = CommentRelatedPostSerializer(instance.post).data
         return representation
+        
