@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'taggit',
     'store',
     'rest_framework',
+    'rest_framework.authtoken',
 
     
     'django.contrib.admin',
@@ -163,5 +164,10 @@ BRAINTREE_CONF = braintree.Configuration(
 
 REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
-    'PAGE_SIZE': 10
+    'PAGE_SIZE': 10,
+
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+    ],
+
 }

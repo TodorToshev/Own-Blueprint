@@ -5,6 +5,7 @@ from django.contrib import messages
 from django.contrib.auth import views as auth_views
 from django.utils.decorators import method_decorator
 from functools import wraps
+# from rest_framework.authtoken.models import Token
 
 
 # Create your views here.
@@ -64,6 +65,7 @@ def user_registration(request):
             user.save()
             login(request, user)
             messages.success(request, 'Registration successful.')
+            # Token.objects.create(user=user)     #API create token. Removed because of .models - create_auth_token()
             return redirect("blog:blog")
         messages.error(request, 'Registration failed.')
     else:
