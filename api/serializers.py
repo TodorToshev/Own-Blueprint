@@ -117,7 +117,7 @@ class ResisterSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = User
-        fields = ('username', 'email', 'password', 'password2',)
+        fields = ('id', 'username', 'email', 'password', 'password2',)
 
 
     def validate(self, attrs):

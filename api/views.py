@@ -5,6 +5,7 @@ from rest_framework import permissions
 from rest_framework import generics
 from .serializers import PostCreateSerializer, PostSerializer, CommentSerializer, ResisterSerializer
 from django.contrib.auth.models import User
+from rest_framework.authtoken.models import Token
 
 class PostListView(generics.ListAPIView):
     queryset = BlogPost.objects.all().order_by('-created')
@@ -25,3 +26,9 @@ class PostCreateView(generics.CreateAPIView):
 class UserCreateView(generics.CreateAPIView):
     queryset = User.objects.all()
     serializer_class = ResisterSerializer
+
+    def create(self, request, *args, **kwargs):
+        response = super().create(request, *args, **kwargs)
+        token, _ = Token.objects.get_or_create(user_id=response.data["id"])
+        response.data["token"] = str(token)
+        return response
