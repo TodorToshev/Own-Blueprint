@@ -109,6 +109,10 @@ class CommentSerializer(serializers.ModelSerializer):
         representation["post"] = CommentRelatedPostSerializer(instance.post).data
         return representation
         
+        
+class CommentCreateSerializer(CommentSerializer):
+    post = serializers.PrimaryKeyRelatedField(read_only=True)
+
 
 class ResisterSerializer(serializers.ModelSerializer):
     email = serializers.EmailField(required=True, validators=[UniqueValidator(queryset=User.objects.all())])
