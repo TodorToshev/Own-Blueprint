@@ -2672,21 +2672,22 @@ a:hover {
   padding-left: 15px;
   padding-right: 15px;
   padding-top: 10px;
-  align-content: center;
   margin-left: 20px;
   background-color: transparent;
   border-color: #aaa;
   font-size: 14px;
   font-weight: 500;
-  display: inline-block;
-  text-align: center;
-  vertical-align: middle;
   border: 2px solid;
   border-radius: 0.45rem;
 }
 .size-btn:hover {
   color: rgb(55, 165, 79);
+  border-color: rgb(55, 165, 79);
   transition: 0.5s;
+
+}
+.size-btn:focus {
+  background-color: #cff;
 
 }
 

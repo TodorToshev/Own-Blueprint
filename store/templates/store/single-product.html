@@ -63,17 +63,15 @@
                                     {% endfor %}
                                     <p style='margin-left: 5px; display: inline'>
                                         Rating {{ avg_prod_rating|floatformat }} | 
+                                        {% if reviews %}
+                                            {{ reviews|length }} Comment{{ reviews|pluralize }} 
+                                        {% endif %}
+                                    </ul>
                             {% else %}
-                                <p style='margin-left: 5px; display: inline'>No Rating Yet |</p>
+                                <ul>
+                                    <p style='margin-left: 5px; display: inline'>No Rating Yet | No Comments Yet</p>
                                 </ul>
                             {% endif %}
-                            <p style='margin-left: 5px; display: inline'>
-                            {% if reviews %}
-                                {{ reviews|length }} Comment{{ reviews|pluralize }} 
-                            {% else %} 
-                            No Comments Yet 
-                            {% endif %}
-                            </p>
 
                     <span>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod kon tempor incididunt ut labore.</span>
                     <div class="quote">
@@ -96,12 +94,12 @@
                                     {% for choice in order_form.size %}
                                     <button type="button" class="size-btn">{{ choice }}</button>
                                     {% endfor %} 
-                                </h4>
+                                 </h4>
                             </div>
                         </div>
 
                         <div class="total">
-                            <h4>Total: $210.00</h4>
+                            <!-- <h4>Total: $210.00</h4>    Add dynamic price calculation later; HTMX? -->
                                 <input class="main-add-button" type="submit" value="Add To Cart">
                         </div>
                         <!-- can be done from OrderForm, but this is simpler. Provides product id to cart_view() -->
@@ -129,10 +127,9 @@
     <!-- Description, Details & Reviews start here: -->
     
     <div class="container card d-flex justify-content-center mt-5" style="border: 0px">
-        <h5 style='text-align:center'># maybe add ajax pagination?</h2>
         <ul class="nav" id="pills-tab" role="tablist">
             <li class="nav-item"> <a class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home" aria-selected="true">Description</a> </li>
-            <li class="nav-item"> <a class="nav-link" id="pills-profile-tab" data-toggle="pill" href="#pills-profile" role="tab" aria-controls="pills-profile" aria-selected="false">Operators</a> </li>
+            <li class="nav-item"> <a class="nav-link" id="pills-profile-tab" data-toggle="pill" href="#pills-profile" role="tab" aria-controls="pills-profile" aria-selected="false">Additional Details</a> </li>
             <li class="nav-item"> <a class="nav-link" id="pills-contact-tab" data-toggle="pill" href="#pills-contact" role="tab" aria-controls="pills-contact" aria-selected="false">Reviews</a> </li>
         </ul> <!-- content -->
         <div class="tab-content" id="pills-tabContent p-3">
@@ -318,20 +315,19 @@
                         <div class="down-content">
                             <h4>{{ product.name }}</h4>
                             <span>{{ product.price }}</span>
-                            <span class="inline-stars">
-                                <ul class="stars">
-                                    
-                                {% if product.rating %}                                   
-                                    {% for _ in product.rating|times %}
-                                                <i class="fa fa-star"></i>
-                                    {% endfor %}
-                                    
-                                    {% for _ in product.rating|rest %}
-                                        <i class="fa fa-star-o empty"></i>
-                                    {% endfor %}
-                                {% endif %}
-                                </ul>
-                        </span>
+                                <span class="inline-stars">
+                                    <ul class="stars">                                        
+                                        {% if product.rating %}                                   
+                                            {% for _ in product.rating|times %}
+                                                        <i class="fa fa-star"></i>
+                                            {% endfor %}
+                                            
+                                            {% for _ in product.rating|rest %}
+                                                <i class="fa fa-star-o empty"></i>
+                                            {% endfor %}
+                                        {% endif %}
+                                    </ul>
+                                </span>
                         </div>
                     </div>
                 {% endfor %}

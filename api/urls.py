@@ -7,8 +7,6 @@ router = routers.DefaultRouter()
 # router.register(r'posts', views.PostViewSet)
 # router.register(r'comments', views.CommentViewSet)
 
-# Wire up our API using automatic URL routing.
-# Additionally, we include login URLs for the browsable API.
 urlpatterns = [
     path('', include(router.urls)),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
@@ -17,7 +15,8 @@ urlpatterns = [
     path('comment-create/', views.CommentCreateView.as_view()),
     path('comment-update/<int:pk>', views.CommentUpdateDeleteView.as_view()),
     path('post-create/', views.PostCreateView.as_view()),
-    path('post-update/<int:pk>', views.PostUpdateDeleteView.as_view()),
+    path('post-update/<int:pk>', views.PostUpdateDeleteView.as_view(), name='manufacturers'),
     path('register/', views.UserCreateView.as_view()),
+    
 
 ]
