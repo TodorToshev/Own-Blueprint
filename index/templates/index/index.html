@@ -11,15 +11,18 @@
   </a>
     <section class="one">
       <div class="text">
-        <a href="{% url "blog:blog" %}"><h1>BLOG</h1></a>
+        <a href="{% url "blog:blog" %}"><h1 class="pulsate">BLOG</h1></a>
         <p>
           {{ blog_info }}
+          <p style="text-transform: none; padding-top: 15px">
+            test account: username: demo_user, password: demo
+          </p>
         </p>
     </div>
     </section>
     <section class="two">
       <div class="text">
-        <a href="{% url "store:store_index" %}"><h1>STORE</h1></a>
+        <a href="{% url "store:store_index" %}"><h1 class="pulsate">STORE</h1></a>
         <p>
           {{ store_info }}
         </p>
@@ -28,7 +31,7 @@
     </section>
     <section class="three">
       <div class="text">
-        <a href="http://localhost:8000/api/"><h1>API</h1></a>
+        <a href="http://localhost:8000/api/"><h1 class="pulsate">API</h1></a>
           <p>
             {{ api_info }}
           </p>
@@ -54,16 +57,19 @@
     -->
     <section class="one is-clone">
       <div class="text">
-        <a href="{% url "blog:blog" %}"><h1>BLOG</h1></a>
+        <a href="{% url "blog:blog" %}"><h1 class="pulsate">BLOG</h1></a>
         <p>
           {{ blog_info }}
+          <p style="text-transform: none; padding-top: 15px">
+            test account: username: demo_user, password: demo
+          </p>
         </p>
     </div>
     </section>
 
     <section class="two is-clone">
       <div class="text">
-        <a href="{% url "store:store_index" %}"><h1>STORE</h1></a>
+        <a href="{% url "store:store_index" %}"><h1 class="pulsate">STORE</h1></a>
         <p>
         {{ store_info }}
         </p>

@@ -60,11 +60,19 @@ class FilterListView(CategTypeAndSize, ListView):
             The view returns Product objects to html by generating QS from the data 
             in the GET parameters of the sidebar form in the store/products.html.'''
             try:
-                qs = Product.objects.filter(
-                    Q(category__in=self.request.GET.getlist('category')) & 
-                    Q(product_type__in=self.request.GET.getlist('type')) &
-                    Q(sizes__in=self.request.GET.getlist('size'))   
-                    )
+                '''Simply listing the Q objects with a comma in the Product.objects.filter(...) call 
+                does not work in the occasion when only one or two keywords are being filteres. 
+                That's why a check is necessary for every keyword. If it is present in the request.GET, 
+                an empty Q object is extended with the according filter word. The filtering is then 
+                executed on the entire Q obj, which can have 1, 2, 3 or none of the keywords.'''
+                q_obj = Q()
+                if 'category' in self.request.GET:
+                    q_obj.add(Q(category__in=self.request.GET.getlist('category')), Q.AND)
+                if 'type' in self.request.GET:
+                    q_obj.add(Q(product_type__in=self.request.GET.getlist('type')), Q.AND)
+                if 'size' in self.request.GET:
+                    q_obj.add(Q(sizes__in=self.request.GET.getlist('size')), Q.AND)
+                qs = Product.objects.filter(q_obj)
                 return qs
             except EmptyResultSet:
                 pass
@@ -114,6 +122,8 @@ def single_product(request, pk):
                           email=review_form.cleaned_data['email'], comment=review_form.cleaned_data['comment'], 
                           rating=int(request.POST['rating_val']))
             new_review.save()
+            product.rating = avg_prod_rating
+            product.save()
 
             #redirect to the same page to avoid form resubmission on reload.
             return redirect(product.get_absolute_url())
