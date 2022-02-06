@@ -1,0 +1,97 @@
+html,
+body {
+  height: 100%;
+  overflow: hidden;
+}
+
+.Loop {
+  position: relative;
+  height: 100%;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+section {
+  position: relative;
+  text-align: center;
+  min-height: 300px;
+  max-height: 700px;
+  height: 80%;
+}
+
+::scrollbar {
+  display: none;
+}
+
+
+body {
+  font-family: "Avenir Next", Helvetica, sans-serif;
+  font-weight: normal;
+  font-size: 100%;
+}
+
+.one {
+  background: #bebebe;
+}
+
+.two {
+  background: #82837E;
+}
+
+.three {
+  background: #94B053;
+}
+
+.four {
+  background: #BDEB07;
+}
+
+.five {
+  background: #BFFA37;
+}
+
+h1 {
+  /* margin: 0; */
+  position: absolute;
+  /* top: 50%; */
+  transform: translateY(-50%);
+  width: 100%;
+  font-size: 80px;
+  letter-spacing: 5px;
+  color: #fff;
+  text-transform: uppercase;
+}
+
+p {
+  padding-top: 15vh;
+  margin: auto;
+  width: 85vw;
+  font-size: 20px;
+  letter-spacing: 5px;
+  color: #fff;
+  text-transform: uppercase;
+}
+
+.text {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 100%;
+  letter-spacing: 5px;
+  color: #fff;
+  text-transform: uppercase;
+}
+
+.right-badge {
+  font-size: 44px!important;
+  position: fixed;
+  right: 2.5vw;
+  top: 20%;
+  z-index: 1;
+  display: inline;
+  align-items: center;
+  border: 2px solid;
+  border-radius: 10%;
+  border-color: #252525;
+  padding: 5px;
+}

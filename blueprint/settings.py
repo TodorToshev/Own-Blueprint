@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'store',
     'rest_framework',
     'rest_framework.authtoken',
+    'index',
 
     
     'django.contrib.admin',
